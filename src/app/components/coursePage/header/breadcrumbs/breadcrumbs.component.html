@@ -1,0 +1,7 @@
+<div class="breadcrumb-container">
+    <ol class="breadcrumb">
+        <li *ngFor='let value of breadcrumbs'>
+            <a (click)="onBreadcrumbClickHandler(value)" href="#">{{value.name}}</a>
+        </li>
+    </ol>
+</div>

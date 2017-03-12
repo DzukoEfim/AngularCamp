@@ -1,0 +1,22 @@
+<div class="row course-page">
+    <div class="col-md-12 col-lg-12 header">
+        <course-header></course-header>
+    </div>
+
+    <div class="col-md-12 col-lg-12 control-panel">
+        <course-control-panel
+                [(searchText)]="searchText"
+                (onCourseSearch)="onCourseSearch()"
+                (onCourseClear)="onCourseClear()"
+        >
+        </course-control-panel>
+    </div>
+
+    <div class="col-md-12 col-lg-12 courses">
+        <courses [courses]="courses"></courses>
+    </div>
+
+    <div class="col-md-12 col-lg-12 copyright">
+        <copyright></copyright>
+    </div>
+</div>

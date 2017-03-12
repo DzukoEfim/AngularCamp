@@ -1,0 +1,11 @@
+.row {
+    margin-top: 15px;
+}
+
+.control-buttons {
+    margin-top: 15px;
+}
+
+.control-buttons div {
+    float: right;
+}

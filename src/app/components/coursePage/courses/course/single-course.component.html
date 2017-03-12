@@ -1,0 +1,23 @@
+<div class="single-course">
+
+    <div class="row">
+        <div class="col-md-10 col-lg-10 course-heading">
+            <h3>{{title}} | </h3><h4> {{duration}}</h4>
+        </div>
+        <div class="col-md-2 col-lg-2 course-date-created">
+            <span>posted: {{creatingDate}}</span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 col-lg-10">
+            {{description}}
+        </div>
+
+        <div class="col-md-2 col-lg-2">
+            <button type="button" class="btn btn-primary" (click)="onEdit()">Edit</button>
+            <button type="button" class="btn btn-default" (click)="onDelete()">Delete</button>
+        </div>
+
+    </div>
+</div>
