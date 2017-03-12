@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'login-form',
@@ -21,10 +21,10 @@ export class LoginFormComponent {
         this.isUserLogged = false;
         this.userName = '';
         this.password = '';
-    }
+    };
 
     public logInUser = function () {
         this.isUserLogged = true;
-    }
+    };
 
 }

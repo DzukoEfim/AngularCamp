@@ -10,9 +10,9 @@ import { LogoComponent } from '../app/components/coursePage/header/course-logo/c
 import { BreadcrumbsComponent } from '../app/components/coursePage/header/breadcrumbs/breadcrumbs.component';
 import { LoginFormComponent } from '../app/components/coursePage/header/login-form/login-form.component';
 
-import { CourseControlPanel } from '../app/components/coursePage/course-control-panel/course-control-panel.component';
+import { CourseControlPanelComponent } from '../app/components/coursePage/course-control-panel/course-control-panel.component';
 import { CoursesComponent } from '../app/components/coursePage/courses/courses.component';
-import { SingleCourse } from '../app/components/coursePage/courses/course/single-course.component';
+import { SingleCourseComponent } from '../app/components/coursePage/courses/course/single-course.component';
 
 import { CopyrightComponent } from '../app/components/coursePage/footer/copyright/copyright.component';
 
@@ -31,9 +31,9 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
         LogoComponent,
         BreadcrumbsComponent,
         LoginFormComponent,
-        CourseControlPanel,
+        CourseControlPanelComponent,
         CoursesComponent,
-        SingleCourse,
+        SingleCourseComponent,
         CopyrightComponent
     ],
     // providers: [

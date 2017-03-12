@@ -6,7 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
     templateUrl: './courses.component.html'
 })
 
-export class CoursesComponent implements OnInit{
+export class CoursesComponent implements OnInit {
     @Input('courses') courses;
 
     public ngOnInit() {
