@@ -24,11 +24,11 @@ export class SingleCourseComponent implements OnInit, ICourse {
         console.log('single course INIT, course id - ', this.id);
     }
 
-    public onEdit() {
+    public onEdit(): void {
         console.log('on sing-course EDIT click, course id - ', this.id);
     }
 
-    public onDelete() {
+    public onDelete(): void {
         this.onCourseDelete.emit(this.id);
     }
 }

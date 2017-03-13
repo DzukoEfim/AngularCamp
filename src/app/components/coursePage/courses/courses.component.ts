@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ICourse } from '../../../interfaces/course-interfaces/course-interface';
 
 @Component({
     selector: 'courses',
@@ -7,13 +8,13 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 
 export class CoursesComponent implements OnInit {
-    @Input('courses') courses;
+    @Input('courses') courses: Array<ICourse>;
 
     public ngOnInit() {
         console.log('course OnInit, courses array - ', this.courses);
     }
 
-    public onCourseDelete(id: number) {
+    public onCourseDelete(id: number): void {
         console.log('course was DELETED, course id - ', id);
     }
 }

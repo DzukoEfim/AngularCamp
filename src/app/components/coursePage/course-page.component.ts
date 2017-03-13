@@ -8,9 +8,8 @@ import { ICourse } from '../../interfaces/course-interfaces/course-interface';
 })
 
 export class CoursePageComponent {
-    courses: ICourse[];
+    courses: Array<ICourse>;
     searchText: string;
-    // onCourseSearch: ($event: Object) => ICourse[];
 
     constructor() {
         console.log(this.courses);
@@ -36,7 +35,7 @@ export class CoursePageComponent {
             }];
     }
 
-    public onCourseSearch() {
+    public onCourseSearch(): Array<ICourse> {
         let filteredArray: ICourse[] = [];
 
         if (this.searchText === '') {
@@ -51,7 +50,7 @@ export class CoursePageComponent {
         return filteredArray;
     }
 
-    public onCourseClear() {
+    public onCourseClear(): void {
         this.searchText = '';
     }
 }
