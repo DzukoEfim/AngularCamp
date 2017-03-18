@@ -1,44 +1,28 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
-
-import { CoursePageComponent } from '../app/components/coursePage/course-page.component';
-import { AppHeaderComponent } from '../app/components/coursePage/header/header.component';
-import { LogoComponent } from '../app/components/coursePage/header/course-logo/course-logo.component';
-import { BreadcrumbsComponent } from '../app/components/coursePage/header/breadcrumbs/breadcrumbs.component';
-import { LoginFormComponent } from '../app/components/coursePage/header/login-form/login-form.component';
-
-import { CourseControlPanelComponent } from '../app/components/coursePage/course-control-panel/course-control-panel.component';
-import { CoursesComponent } from '../app/components/coursePage/courses/courses.component';
-import { SingleCourseComponent } from '../app/components/coursePage/courses/course/single-course.component';
-
-import { CopyrightComponent } from '../app/components/coursePage/footer/copyright/copyright.component';
-
+import { HeaderModule } from './components/common/header/header.module';
+import { CoursePageModule } from './components/coursePage/course-page.module';
+import { FooterModule } from './components/common/footer/footer.module';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 @NgModule({
     imports: [
         BrowserModule,
-        FormsModule
+        FormsModule,
+        CommonModule,
+        CoursePageModule,
+        HeaderModule,
+        FooterModule
     ],
     declarations: [
-        AppComponent,
-        CoursePageComponent,
-        AppHeaderComponent,
-        LogoComponent,
-        BreadcrumbsComponent,
-        LoginFormComponent,
-        CourseControlPanelComponent,
-        CoursesComponent,
-        SingleCourseComponent,
-        CopyrightComponent
+        AppComponent
     ],
-    // providers: [
-    //   ApiService
-    // ],
+
     bootstrap: [AppComponent]
 })
 export class AppModule {

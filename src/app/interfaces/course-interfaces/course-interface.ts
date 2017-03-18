@@ -6,6 +6,13 @@ interface ICourse {
     description: string
 }
 
+interface ICourseCreate {
+    title: string,
+    duration: string,
+    description: string
+}
+
 export {
-    ICourse
+    ICourse,
+    ICourseCreate
 }

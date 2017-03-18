@@ -3,8 +3,17 @@
         <h3>Courses list</h3>
     </div>
     <div class="col-md-12 col-lg-12">
+
+        <div *ngIf="">
+
+        </div>
+
         <div *ngFor="let course of courses">
-            <single-course [course]="course" (onCourseDelete)="onCourseDelete(id)"></single-course>
+            <single-course [course]="course" (onCourseDelete)="openAlert(id)"></single-course>
         </div>
     </div>
+</div>
+
+<div *ngIf="showDeleteAlert">
+    <course-confirmation-alert (onClose)="closeAlert()" (onSubmit)="deleteCourse(id)"></course-confirmation-alert>
 </div>

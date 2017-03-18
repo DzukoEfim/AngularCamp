@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import { ICourse } from '../../../interfaces/course-interfaces/course-interface';
 
 @Component({
@@ -9,12 +9,25 @@ import { ICourse } from '../../../interfaces/course-interfaces/course-interface'
 
 export class CoursesComponent implements OnInit {
     @Input('courses') courses: Array<ICourse>;
+    @Output('onCourseDelete') onCourseDelete = new EventEmitter<number>();
+    public showDeleteAlert: boolean = false;
+    public courseId: number;
 
     public ngOnInit() {
         console.log('course OnInit, courses array - ', this.courses);
     }
 
-    public onCourseDelete(id: number): void {
-        console.log('course was DELETED, course id - ', id);
+    public deleteCourse(id: number): void {
+        this.onCourseDelete.emit(id);
+    }
+
+    public closeAlert(): void {
+        this.courseId = null;
+        this.showDeleteAlert = false;
+    }
+
+    public openAlert(id: number): void {
+        this.courseId = id;
+        this.showDeleteAlert = true;
     }
 }

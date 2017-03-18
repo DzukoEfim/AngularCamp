@@ -41,7 +41,7 @@
     "no-duplicate-variable": true,
     "no-empty": false,
     "no-eval": true,
-    "no-inferrable-types": true,
+    "no-inferrable-types": false,
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-switch-case-fall-through": true,
@@ -107,12 +107,11 @@
     "no-output-rename": true,
     "use-life-cycle-interface": true,
     "use-pipe-transform-interface": true,
-    "component-class-suffix": true,
+    "component-class-suffix": false,
     "directive-class-suffix": true,
     "pipe-naming": [
       true,
-      "camelCase",
-      "my"
+      "camelCase"
     ],
     "no-attribute-parameter-decorator": true,
     "no-forward-ref": true,

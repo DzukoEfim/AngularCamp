@@ -10,6 +10,7 @@ export class CourseControlPanelComponent {
     @Input('searchText') searchText: string;
     @Output('onCourseSearch') onCourseSearch = new EventEmitter<void>();
     @Output('onCourseClear') onCourseClear = new EventEmitter<void>();
+    @Output('onAddNewClick') onAddNewClick = new EventEmitter();
 
     public searchCourse(): void {
         console.log('course-control-panel find button click, search text - ', this.searchText);
@@ -21,6 +22,6 @@ export class CourseControlPanelComponent {
     }
 
     public onAddNew(): void {
-        console.log('on ADD NEW click');
+        this.onAddNewClick.emit()
     }
 }

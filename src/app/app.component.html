@@ -1,3 +1,22 @@
 <div class="main container-fluid">
-    <course-page></course-page>
+    <div class="row" *ngIf="isUserLogged">
+        <div class="col-md-12 col-lg-12 header">
+            <page-header></page-header>
+        </div>
+
+        <div class="col-md-12 col-lg-12 course-page">
+            <course-page></course-page>
+        </div>
+        <div class="col-md-12 col-lg-12 header">
+            <copyright></copyright>
+        </div>
+    </div>
+
+    <div class="row" *ngIf="!isUserLogged">
+        <div class="col-md-4 col-log-4"></div>
+        <div class="col-md-4 col-lg-4">
+            <login-form></login-form>
+        </div>
+        <div class="col-md-4 col-log-4"></div>
+    </div>
 </div>

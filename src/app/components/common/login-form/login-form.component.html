@@ -1,13 +1,4 @@
 <div class="login-form">
-    <div *ngIf="isUserLogged" class="row logged-form">
-        <div class="col-md-6 col-md-6 welcome-text">
-            <span>Welcome, {{userName}}!</span>
-        </div>
-        <div class="col-md-6 col-md-6">
-            <button (click)="logOutUser()" class="btn btn-default logout-button" type="button">Logout</button>
-        </div>
-    </div>
-
     <div *ngIf="!isUserLogged" class="row login-form">
         <div class="form-group col-md-12 col-lg-12">
             <label for="userName">User name</label>

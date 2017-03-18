@@ -1,0 +1,46 @@
+<div class="single-course">
+
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Title</label>
+                <input [value]="title"
+                       (input)="title=$event.target.value"
+                       type="text"
+                       class="form-control"
+                       placeholder="Title">
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Course duration</label>
+                <input [value]="duration"
+                       (input)="duration=$event.target.value"
+                       type="text"
+                       class="form-control"
+                       id="exampleInputEmail1"
+                       placeholder="Email">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Description</label>
+                <textarea
+                        [value]="description"
+                        (input)="$event.target.value"
+                        class="form-control" rows="3">
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <button type="button" class="btn btn-primary" (click)="onFormClose()">Close</button>
+            <button type="button" class="btn btn-default" (click)="onCourseCreate()">Create</button>
+        </div>
+    </div>
+</div>

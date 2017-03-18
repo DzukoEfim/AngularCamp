@@ -1,17 +1,21 @@
 import { Component } from '@angular/core';
-
 import { IBreadcrumb }  from '../../../interfaces/course-interfaces/breacrumbs-interface';
+import { LoginService } from '../../../shared/services/login.service';
 
 @Component({
-    selector: 'course-header',
+    selector: 'page-header',
     styleUrls: ['./header.component.css'],
     templateUrl: './header.component.html'
 })
 
 export class AppHeaderComponent {
-    breadcrumbs: IBreadcrumb[];
+    public breadcrumbs: IBreadcrumb[];
+    public userName: string;
 
-    constructor() {
+    constructor(private loginService: LoginService) {
+        this.loginService = loginService;
+        this.userName = loginService.getUserName();
+
         this.breadcrumbs = [
             {
                 name: 'main',
@@ -24,8 +28,12 @@ export class AppHeaderComponent {
         ];
     }
 
-    onBreadcrumbClick = function (name: string) {
+    onBreadcrumbClick = function (name: string): void {
         console.log(name);
     };
+
+    public logOutUser(): void {
+        this.loginService.logOut()
+    }
 
 }
