@@ -1,16 +1,16 @@
 <div class="login-form">
     <div class="row login-form">
-        <div class="form-group col-md-12 col-lg-12">
+        <div class="form-group col-md-12 col-lg-12 {{userName.length === 0 ? 'has-error' : ''}}">
             <label for="userName">User name</label>
-            <input [value]="userName" (input)="userName=$event.target.value" id="userName" placeholder="User name" class="form-control">
+            <input [value]="userName" (input)="userName=$event.target.value" id="userName" placeholder="User name" class="form-control" (keyup.enter)="onEnter()">
         </div>
 
-        <div class="form-group col-md-12 col-lg-12">
+        <div class="form-group col-md-12 col-lg-12 {{password.length === 0 ? 'has-error' : ''}}">
             <label for="password">Password</label>
-            <input [(ngModel)]="password" type="password" id="password" placeholder="Passworde" class="form-control">
+            <input [(ngModel)]="password" type="text" id="password" placeholder="Passworde" class="form-control" (keyup.enter)="onEnter()">
         </div>
 
-        <div class="col-md-6 col-md-6">
+        <div class="col-md-12 col-md-12">
             <button type="button" class="btn btn-primary" (click)="logInUser()">Login</button>
         </div>
     </div>
