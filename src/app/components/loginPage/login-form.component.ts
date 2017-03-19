@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoginService } from '../../../shared/services/login.service'
+import { LoginService } from '../../shared/services/login.service';
 
 @Component({
     selector: 'login-form',
@@ -8,8 +8,8 @@ import { LoginService } from '../../../shared/services/login.service'
 })
 
 export class LoginFormComponent {
-    public userName: string;
-    public password: string;
+    public userName: string = '';
+    public password: string = '';
 
     constructor(private loginService: LoginService) {
         this.loginService = loginService;

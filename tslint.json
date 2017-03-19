@@ -91,13 +91,11 @@
     "directive-selector": [
       true,
       "attribute",
-      "my",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "my",
       "kebab-case"
     ],
     "use-input-property-decorator": true,
@@ -106,8 +104,8 @@
     "no-input-rename": true,
     "no-output-rename": true,
     "use-life-cycle-interface": true,
-    "use-pipe-transform-interface": true,
-    "component-class-suffix": false,
+    "use-pipe-transform-interface": false,
+    "component-class-suffix": true,
     "directive-class-suffix": true,
     "pipe-naming": [
       true,

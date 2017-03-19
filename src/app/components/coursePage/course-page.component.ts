@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ICourse, ICourseCreate } from '../../interfaces/course-interfaces/course-interface';
+import { ICourse, ICourseCreate, ICourseInfoForEdit } from '../../interfaces/course-interfaces/course-interface';
 import { CoursesService } from '../../services/courses.service';
 
 @Component({
@@ -10,53 +10,56 @@ import { CoursesService } from '../../services/courses.service';
 
 export class CoursePageComponent {
     courses: Array<ICourse>;
-    searchText: string;
     showCreateCourseForm: boolean = false;
 
+    public filteredCourses: Array<ICourse>;
+
     constructor( private coursesService: CoursesService ) {
+        this.courses = coursesService.getCoursesList();
         this.coursesService = coursesService;
-        this.updateCourseList();
+        this.coursesService.subscribeToChanges(this.updateCourseList, this);
     }
 
     private updateCourseList(): void {
         this.courses = this.coursesService.getCoursesList();
     }
 
-    public onCourseSearch(): Array<ICourse> {
-        let filteredArray: ICourse[] = [];
+    public onCourseSearch(valueObject: {value: string}): Array<ICourse> {
+        let filteredArray: ICourse[] = [],
+            searchText: string = valueObject.value;
 
-        if (this.searchText === '') {
+        if (!searchText || searchText === '') {
             return filteredArray;
         }
 
         for (let course of this.courses) {
-            if (course.title.toLowerCase().indexOf(this.searchText.toLowerCase()) !== -1) {
+            if (course.title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1) {
                 filteredArray.push(course);
             }
         }
+
         return filteredArray;
     }
 
-    public onCourseClear(): void {
-        this.searchText = '';
-    }
-
-    public onAddNewClick() {
+    public onAddNewClick(): void {
         this.showCreateCourseForm = true;
     }
 
-    public onCreateFormClose() {
+    public onCreateFormClose(): void {
         this.showCreateCourseForm = false;
     }
 
     public onAddNewCourse(courseObject: ICourseCreate): void {
-        this.coursesService.createCourse(courseObject.title, courseObject.duration, courseObject.description);
-        this.updateCourseList();
+        this.coursesService.createCourse(courseObject);
+        this.onCreateFormClose();
     }
 
-    public onCourseDelete(id: number) {
+    public onCourseDelete(id: number): void {
         this.coursesService.deleteCourse(id);
-        this.updateCourseList();
+    }
+
+    public onCourseEdit(editCourseObject: ICourseInfoForEdit): void {
+        this.coursesService.updateCourse(editCourseObject);
     }
 
 

@@ -3,11 +3,11 @@
         <course-logo></course-logo>
     </div>
 
-    <div class="col-md-4 col-lg-4 breadcrumb-container">
+    <div class="col-md-4 col-lg-4 breadcrumb-container" *ngIf="isUserLogged">
         <course-breadcrumbs [breadcrumbs]="breadcrumbs"></course-breadcrumbs>
     </div>
 
-    <div class="col-md-4 col-lg-4">
+    <div class="col-md-4 col-lg-4" *ngIf="isUserLogged">
         <div class="row logged-form">
             <div class="col-md-6 col-md-6 welcome-text">
                 <span>Welcome, {{userName}}!</span>

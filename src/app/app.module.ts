@@ -1,5 +1,4 @@
 import { NgModule, ApplicationRef } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -7,17 +6,21 @@ import { AppComponent } from './app.component';
 import { HeaderModule } from './components/common/header/header.module';
 import { CoursePageModule } from './components/coursePage/course-page.module';
 import { FooterModule } from './components/common/footer/footer.module';
+import { LoginPageModule } from './components/loginPage/login-form.module';
+
+import { CoreModule } from './shared/core.module';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 @NgModule({
     imports: [
-        BrowserModule,
+        LoginPageModule,
         FormsModule,
         CommonModule,
         CoursePageModule,
         HeaderModule,
-        FooterModule
+        FooterModule,
+        CoreModule
     ],
     declarations: [
         AppComponent

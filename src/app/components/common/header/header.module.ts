@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
 import { AppHeaderComponent } from './header.component';
 import { LogoComponent } from './logo/logo.component';
@@ -15,6 +16,7 @@ const declarations = [
 ];
 
 @NgModule({
+    imports: [BrowserModule],
     declarations: [...declarations],
     exports: [...declarations]
 })

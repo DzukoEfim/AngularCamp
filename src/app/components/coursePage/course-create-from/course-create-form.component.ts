@@ -16,7 +16,7 @@ export class CourseCreateFormComponent {
     public description: string = '';
 
     public onFormClose(): void {
-        this.onCreateFormClose.emit()
+        this.onCreateFormClose.emit();
     }
 
     public clearFormData(): void {

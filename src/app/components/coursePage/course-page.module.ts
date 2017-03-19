@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
-
+import { BrowserModule } from '@angular/platform-browser';
 import { CoursePageComponent } from './course-page.component';
+import { FormsModule }   from '@angular/forms';
 
 import { CourseControlPanelComponent } from './course-control-panel/course-control-panel.component';
 import { CoursesComponent } from './courses/courses.component';
@@ -28,6 +29,7 @@ const declarations = [
 ];
 
 @NgModule({
+    imports: [BrowserModule, FormsModule],
     declarations: [...declarations],
     exports: [...declarations],
     providers: [

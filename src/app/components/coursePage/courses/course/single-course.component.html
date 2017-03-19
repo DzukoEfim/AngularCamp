@@ -1,22 +1,62 @@
 <div class="single-course">
 
     <div class="row">
-        <div class="col-md-10 col-lg-10 course-heading">
-            <h3>{{title}} | </h3><h4> {{duration}}</h4>
+        <div class="col-md-10 col-lg-10 course-heading" *ngIf="!editMode">
+            <h3 *ngIf="!editMode">{{course.title}} | </h3>
+            <h4> {{course.duration}}</h4>
         </div>
+
+        <div class="col-md-10 col-lg-10 course-heading edit-header" *ngIf="editMode">
+            <div class="edit-title row">
+                <div class="col-md-6 col-lg-6">
+                    <label for="title-edit">Title</label>
+                    <input
+                        [(ngModel)]="editTitle"
+                        placeholder="Title"
+                        class="form-control"
+                        id="title-edit"
+                    />
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <label for="duration-edit">Duration</label>
+                    <input
+                        [(ngModel)]="editDuration"
+                        placeholder="Duration"
+                        class="form-control"
+                        id="duration-edit"
+                    />
+                </div>
+            </div>
+        </div>
+
         <div class="col-md-2 col-lg-2 course-date-created">
-            <span>posted: {{creatingDate}}</span>
+            <span>posted: {{course.creatingDate}}</span>
         </div>
+
     </div>
 
     <div class="row">
-        <div class="col-md-10 col-lg-10">
-            {{description}}
+        <div class="col-md-10 col-lg-10"  *ngIf="!editMode">
+            {{course.description}}
         </div>
 
-        <div class="col-md-2 col-lg-2">
-            <button type="button" class="btn btn-primary" (click)="onEdit()">Edit</button>
-            <button type="button" class="btn btn-default" (click)="onDelete()">Delete</button>
+        <div class="col-md-10 col-lg-10"  *ngIf="editMode">
+            <label for="description-edit">Description</label>
+            <textarea
+                    id="description-edit"
+                    [(ngModel)]="editDescription"
+                    class="form-control" rows="3">
+            </textarea>
+        </div>
+
+        <div class="col-md-2 col-lg-2" *ngIf="!editMode">
+            <button type="button" class="btn btn-primary" (click)="switchEditMode()">Edit</button>
+            <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+        </div>
+
+        <div class="col-md-2 col-lg-2" *ngIf="editMode">
+            <button type="button" class="btn btn-primary" (click)="onEdit()">Save</button>
+            <button type="button" class="btn btn-danger" (click)="switchEditMode()">Close</button>
         </div>
 
     </div>

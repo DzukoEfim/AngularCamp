@@ -1,34 +1,45 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
-import { ICourse }  from '../../../../interfaces/course-interfaces/course-interface';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { ICourse, ICourseInfoForDelete, ICourseInfoForEdit }  from '../../../../interfaces/course-interfaces/course-interface';
 @Component({
     selector: 'single-course',
     styleUrls: ['./single-course.component.css'],
     templateUrl: './single-course.component.html'
 })
 
-export class SingleCourseComponent implements OnInit, ICourse {
-    @Output('onCourseDelete') onCourseDelete = new EventEmitter<number>();
+export class SingleCourseComponent implements OnInit {
+    @Output('onCourseDelete') onCourseDelete = new EventEmitter<ICourseInfoForDelete>();
+    @Output('onCourseEdit') onCourseEdit = new EventEmitter<ICourseInfoForEdit>();
     @Input('course') course: ICourse;
-    public id: number;
-    public title: string;
-    public creatingDate: string;
-    public duration: string;
-    public description: string;
+    public editMode: boolean = false;
+
+    public editTitle: string;
+    public editDuration: string;
+    public editDescription: string;
 
     ngOnInit() {
-        this.id = this.course.id;
-        this.title = this.course.title;
-        this.creatingDate = this.course.creatingDate;
-        this.duration = this.course.duration;
-        this.description = this.course.description;
-        console.log('single course INIT, course id - ', this.id);
+        this.editTitle = this.course.title;
+        this.editDuration = this.course.duration;
+        this.editDescription = this.course.description;
+    }
+
+    public switchEditMode(): void {
+        this.editMode = !this.editMode;
     }
 
     public onEdit(): void {
-        console.log('on sing-course EDIT click, course id - ', this.id);
+        this.onCourseEdit.emit({
+            id: this.course.id,
+            title: this.editTitle,
+            duration: this.editDuration,
+            description: this.editDescription
+        });
+        this.switchEditMode();
     }
 
     public onDelete(): void {
-        this.onCourseDelete.emit(this.id);
+        this.onCourseDelete.emit({
+            id: this.course.id,
+            title: this.course.title
+        });
     }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'course-control-panel',
@@ -7,21 +7,26 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 
 export class CourseControlPanelComponent {
-    @Input('searchText') searchText: string;
-    @Output('onCourseSearch') onCourseSearch = new EventEmitter<void>();
-    @Output('onCourseClear') onCourseClear = new EventEmitter<void>();
+    @Output('onCourseSearch') onCourseSearch = new EventEmitter<Object>();
     @Output('onAddNewClick') onAddNewClick = new EventEmitter();
 
+    public searchText: string = '';
+
     public searchCourse(): void {
-        console.log('course-control-panel find button click, search text - ', this.searchText);
-        this.onCourseSearch.emit();
+        this.onCourseSearch.emit({
+            value: this.searchText
+        });
     }
 
-    public filterCourse(): void {
-        this.onCourseClear.emit();
+    public onCourseClear(): void {
+        this.searchText = '';
     }
 
     public onAddNew(): void {
-        this.onAddNewClick.emit()
+        this.onAddNewClick.emit();
+    }
+
+    public changeInput() {
+        console.log(arguments);
     }
 }

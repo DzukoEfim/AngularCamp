@@ -17,6 +17,4 @@ const angularModules = [
         LoginService
     ],
 })
-export class CoreModule {
-
-}
+export class CoreModule {}

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ICourse } from '../interfaces/course-interfaces/course-interface';
-
+import { ICourse, ICourseInfoForEdit, ICourseCreate } from '../interfaces/course-interfaces/course-interface';
+import { IStoreCallback } from '../interfaces/common/stores-interfaces';
 @Injectable()
 export class CoursesService {
+    private coursesChangeCallbacksArray: Array<IStoreCallback> = [];
     private currentMaxId: number = 1;
     private courses: Array<ICourse> = [
         {
@@ -26,43 +27,63 @@ export class CoursesService {
         }
     ];
 
-    private incrementMaxId() : void {
+    public subscribeToChanges(cb: Function, context?: Object): void {
+        this.coursesChangeCallbacksArray.push({
+            cb: cb,
+            context: context
+        });
+    }
+
+    private callCbOnChanges(): void {
+        for (let cbObject of this.coursesChangeCallbacksArray) {
+            if (cbObject.context) {
+                cbObject.cb.call(cbObject.context);
+            } else {
+                cbObject.cb();
+            }
+        }
+    }
+
+    private incrementMaxId(): void {
         this.currentMaxId++;
     }
 
     private addCourse(course: ICourse): void {
-        this.courses.unshift(course)
+        this.courses.unshift(course);
+        this.callCbOnChanges();
     }
 
 
     public getCoursesList(): Array<ICourse> {
-        return this.courses
+        return this.courses;
     }
 
-    public createCourse(title: string,  duration: string, description: string): void {
+    public createCourse(courseObject: ICourseCreate): void {
         this.incrementMaxId();
 
         let currentDate = new Date();
 
         let newCourse: ICourse = {
             id: this.currentMaxId,
-            title: title,
-            duration: duration,
-            description: description,
+            title: courseObject.title,
+            duration: courseObject.duration,
+            description: courseObject.description,
             creatingDate: `${currentDate.getFullYear()} - ${currentDate.getMonth()} - ${currentDate.getDay()}`
         };
 
         this.addCourse(newCourse);
     }
 
-    public updateCourse(id: number, key: string, newValue: any): void {
+    public updateCourse(courseObject: ICourseInfoForEdit): void {
         for (let course of this.getCoursesList()) {
-            console.log('i');
-            if (course.id === id) {
-                course[key] = newValue;
+            if (course.id === courseObject.id) {
+                course.title = courseObject.title;
+                course.description = courseObject.description;
+                course.duration = courseObject.duration;
                 break;
             }
         }
+        this.callCbOnChanges();
     }
 
     public deleteCourse(id: number): void {
@@ -76,7 +97,6 @@ export class CoursesService {
         }
 
         this.courses.splice(index, 1);
-
+        this.callCbOnChanges();
     }
-
 }

@@ -11,11 +11,16 @@ import { LoginService } from '../../../shared/services/login.service';
 export class AppHeaderComponent {
     public breadcrumbs: IBreadcrumb[];
     public userName: string;
+    public isUserLogged: boolean;
 
     constructor(private loginService: LoginService) {
+
+        loginService.subscribeToLogin(this.onUserStatusChanged, this);
+        loginService.subscribeToLogout(this.onUserStatusChanged, this);
+
         this.loginService = loginService;
         this.userName = loginService.getUserName();
-
+        this.isUserLogged = loginService.isUserLogged();
         this.breadcrumbs = [
             {
                 name: 'main',
@@ -32,8 +37,13 @@ export class AppHeaderComponent {
         console.log(name);
     };
 
+    public onUserStatusChanged(): void {
+        this.userName = this.loginService.getUserName();
+        this.isUserLogged = this.loginService.isUserLogged();
+    }
+
     public logOutUser(): void {
-        this.loginService.logOut()
+        this.loginService.logOut();
     }
 
 }

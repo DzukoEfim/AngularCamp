@@ -12,7 +12,17 @@ interface ICourseCreate {
     description: string
 }
 
+interface ICourseInfoForDelete {
+    id: number,
+    title: string
+}
+
+interface ICourseInfoForEdit extends ICourseCreate {
+    id: number
+}
 export {
     ICourse,
-    ICourseCreate
+    ICourseCreate,
+    ICourseInfoForDelete,
+    ICourseInfoForEdit
 }

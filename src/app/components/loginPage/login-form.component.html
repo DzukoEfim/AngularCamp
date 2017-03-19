@@ -1,5 +1,5 @@
 <div class="login-form">
-    <div *ngIf="!isUserLogged" class="row login-form">
+    <div class="row login-form">
         <div class="form-group col-md-12 col-lg-12">
             <label for="userName">User name</label>
             <input [value]="userName" (input)="userName=$event.target.value" id="userName" placeholder="User name" class="form-control">
