@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { LoginService } from '../../shared/services/login.service';
 
 @Component({
     selector: 'login-form',
     styleUrls: ['./login-form.component.css'],
-    templateUrl: './login-form.component.html'
+    templateUrl: './login-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class LoginFormComponent {

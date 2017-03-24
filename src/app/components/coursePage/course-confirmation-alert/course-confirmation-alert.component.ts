@@ -1,10 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ICourseInfoForDelete } from '../../../interfaces/course-interfaces/course-interface';
 
 @Component({
     selector: 'course-confirmation-alert',
     styleUrls: ['course-confirmation-alert.component.css'],
-    templateUrl: 'course-confirmation-alert.component.html'
+    templateUrl: 'course-confirmation-alert.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class CourseConfirmationAlertComponent {

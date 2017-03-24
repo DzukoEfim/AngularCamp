@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ICourse, ICourseInfoForDelete, ICourseInfoForEdit } from '../../../interfaces/course-interfaces/course-interface';
 
 @Component({
     selector: 'courses',
     styleUrls: ['./courses.component.css'],
-    templateUrl: './courses.component.html'
+    templateUrl: './courses.component.html',
+    // changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class CoursesComponent implements OnInit {

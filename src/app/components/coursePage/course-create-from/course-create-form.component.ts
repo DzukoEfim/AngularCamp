@@ -1,10 +1,11 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ICourseCreate } from '../../../interfaces/course-interfaces/course-interface';
 
 @Component({
     selector: 'course-create-form',
     styleUrls: ['course-create-form.component.css'],
-    templateUrl: 'course-create-form.component.html'
+    templateUrl: 'course-create-form.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class CourseCreateFormComponent {

@@ -75,28 +75,24 @@ export class CoursesService {
     }
 
     public updateCourse(courseObject: ICourseInfoForEdit): void {
-        for (let course of this.getCoursesList()) {
-            if (course.id === courseObject.id) {
-                course.title = courseObject.title;
-                course.description = courseObject.description;
-                course.duration = courseObject.duration;
-                break;
-            }
-        }
-        this.callCbOnChanges();
+        let course = this.getCourseById(courseObject.id);
+        course.title = courseObject.title;
+        course.description = courseObject.description;
+        course.duration = courseObject.duration;
     }
 
     public deleteCourse(id: number): void {
-        let index;
+        let courseIndex = this.getCourseById(id);
+        this.courses.splice(this.courses.indexOf(courseIndex), 1);
+    }
 
-        for ( let i in this.courses ) {
-            if (this.courses[i].id === id) {
-                index = i;
-                break;
-            }
-        }
+    public getCourseById(id: number): any {
+        if (this.courses.length === 0 ) { return void 0; }
 
-        this.courses.splice(index, 1);
-        this.callCbOnChanges();
+        let elementIndex = this.courses.findIndex( (course: ICourse) => {
+            return course.id === id;
+        });
+
+        return this.courses[elementIndex];
     }
 }

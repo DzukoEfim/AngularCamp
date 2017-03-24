@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { ICourse, ICourseCreate, ICourseInfoForEdit } from '../../interfaces/course-interfaces/course-interface';
 import { CoursesService } from '../../services/courses.service';
 
 @Component({
     selector: 'course-page',
     styleUrls: ['./course-page.component.css'],
-    templateUrl: './course-page.component.html'
+    templateUrl: './course-page.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class CoursePageComponent {
@@ -17,12 +18,12 @@ export class CoursePageComponent {
     constructor( private coursesService: CoursesService ) {
         this.courses = coursesService.getCoursesList();
         this.coursesService = coursesService;
-        this.coursesService.subscribeToChanges(this.updateCourseList, this);
+        // this.coursesService.subscribeToChanges(this.updateCourseList, this);
     }
-
-    private updateCourseList(): void {
-        this.courses = this.coursesService.getCoursesList();
-    }
+    //
+    // private updateCourseList(): void {
+    //     this.courses = this.coursesService.getCoursesList();
+    // }
 
     public onCourseSearch(valueObject: {value: string}): Array<ICourse> {
         let filteredArray: ICourse[] = [],

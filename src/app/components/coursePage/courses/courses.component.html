@@ -4,11 +4,11 @@
     </div>
     <div class="col-md-12 col-lg-12">
         <div *ngFor="let course of courses">
-            <single-course [course]="course" (onCourseDelete)="openAlert($event)" (onCourseEdit)="editCourse    ($event)"></single-course>
+            <single-course [course]="course" (onCourseDelete)="openAlert($event)" (onCourseEdit)="editCourse($event)"></single-course>
         </div>
     </div>
 </div>
 
 <div *ngIf="showDeleteAlert">
-    <course-confirmation-alert [courseInfo]="courseInfo" (onClose)="closeAlert()" (onSubmit)="deleteCourse(id)"></course-confirmation-alert>
+    <course-confirmation-alert [courseInfo]="courseInfo" (onClose)="closeAlert()" (onSubmit)="deleteCourse($event)"></course-confirmation-alert>
 </div>

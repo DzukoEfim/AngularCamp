@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ICourse, ICourseInfoForDelete, ICourseInfoForEdit }  from '../../../../interfaces/course-interfaces/course-interface';
 @Component({
     selector: 'single-course',
     styleUrls: ['./single-course.component.css'],
-    templateUrl: './single-course.component.html'
+    templateUrl: './single-course.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class SingleCourseComponent implements OnInit {
