@@ -18,12 +18,7 @@ export class CoursePageComponent {
     constructor( private coursesService: CoursesService ) {
         this.courses = coursesService.getCoursesList();
         this.coursesService = coursesService;
-        // this.coursesService.subscribeToChanges(this.updateCourseList, this);
     }
-    //
-    // private updateCourseList(): void {
-    //     this.courses = this.coursesService.getCoursesList();
-    // }
 
     public onCourseSearch(valueObject: {value: string}): Array<ICourse> {
         let filteredArray: ICourse[] = [],

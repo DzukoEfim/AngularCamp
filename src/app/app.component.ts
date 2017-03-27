@@ -1,6 +1,7 @@
-import { Component, NgZone, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, NgZone, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { LoginService } from './shared/services/login.service';
-// import {Observable} from "rxjs";
+import { LoaderService } from './shared/services/loader.service';
+import { IUserInfo } from './interfaces/common/login-interface';
 
 @Component({
     selector: 'my-app', // <my-app></my-app>
@@ -8,51 +9,29 @@ import { LoginService } from './shared/services/login.service';
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
     public title: string;
-    public userInfo: Object;
-    public label: string;
-    public progress: number = 0;
-    // public userInfo: Observable<Object>;
+    public userInfo: IUserInfo;
+    public showLoader: boolean = false;
 
-    constructor(private loginservice: LoginService, private _ngZone: NgZone, private ref: ChangeDetectorRef) {
-        // this.isUserLogged = loginservice.isUserLogged();
-        // loginservice.subscribeToLogin(this.loginUser.bind(this));
-        // loginservice.subscribeToLogout(this.logOutuser, this);
-
-        this._increaseProgress(() => console.log('Inside Done!'));
+    constructor(private loginservice: LoginService, private _ngZone: NgZone, private loaderService: LoaderService) {
+        this._ngZone = _ngZone;
+        this.loaderService = loaderService;
     }
 
     ngOnInit() {
-        this.loginservice.userInfo.subscribe( (value) => {
-            this.userInfo = value;
+        this._ngZone.onUnstable.subscribe( () => {
+            console.time('test');
         });
-    }
-
-    // private loginUser(): void {
-    //     this.isUserLogged = true;
-    // }
-    //
-    // private logOutuser(): void {
-    //     this.isUserLogged = false;
-    // }
-
-    processOutsideOfAngularZone() {
-        this.label = 'outside';
-        this.progress = 0;
-        this._ngZone.runOutsideAngular(() => {
-            this._increaseProgress(() => {
-                this._ngZone.run(() => {console.log('Outside Done!') });
-            })});
-    }
-
-    _increaseProgress(doneCallback: () => void) {
-        this.progress += 1;
-        console.log(`Current progress: ${this.progress}%`);
-        if (this.progress < 100) {
-            window.setTimeout(() => this._increaseProgress(doneCallback), 10)
-        } else {
-            doneCallback();
-        }
+        this._ngZone.onStable.subscribe( () => {
+            console.timeEnd('test');
+        });
+        this.loginservice.userInfo.subscribe( (userInfo) => {
+            this.userInfo = userInfo;
+        });
+        this.loaderService.showLoader.subscribe( (value) => {
+            console.log(value);
+            this.showLoader = value;
+        });
     }
 }

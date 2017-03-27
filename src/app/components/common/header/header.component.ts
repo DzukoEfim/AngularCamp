@@ -1,8 +1,6 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { IBreadcrumb }  from '../../../interfaces/course-interfaces/breacrumbs-interface';
 import { LoginService } from '../../../shared/services/login.service';
-
-import { Observable } from 'rxjs'
 
 @Component({
     selector: 'page-header',
@@ -11,19 +9,14 @@ import { Observable } from 'rxjs'
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class AppHeaderComponent implements OnInit{
+export class AppHeaderComponent implements OnInit {
     public breadcrumbs: IBreadcrumb[];
-    public userInfo: Observable<Object>;
-    // public userName: string;
-    // public isUserLogged: boolean;
+    public userInfo: Object;
 
-    constructor(private loginService: LoginService) {
-        // loginService.subscribeToLogin(this.onUserStatusChanged, this);
-        // loginService.subscribeToLogout(this.onUserStatusChanged, this);
-
+    constructor(private loginService: LoginService, private ref: ChangeDetectorRef) {
+        this.ref = ref;
         this.loginService = loginService;
-        // this.userName = loginService.getUserName();
-        // this.isUserLogged = loginService.isUserLogged();
+
         this.breadcrumbs = [
             {
                 name: 'main',
@@ -37,17 +30,15 @@ export class AppHeaderComponent implements OnInit{
     }
 
     ngOnInit() {
-        this.userInfo = this.loginService.userInfo;
+        this.loginService.userInfo.subscribe( (userInfo) => {
+            this.userInfo = userInfo;
+            this.ref.markForCheck();
+        });
     }
 
     onBreadcrumbClick = function (name: string): void {
         console.log(name);
     };
-
-    // public onUserStatusChanged(): void {
-    //     this.userName = this.loginService.getUserName();
-    //     this.isUserLogged = this.loginService.isUserLogged();
-    // }
 
     public logOutUser(): void {
         this.loginService.logOut();

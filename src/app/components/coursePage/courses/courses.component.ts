@@ -5,7 +5,7 @@ import { ICourse, ICourseInfoForDelete, ICourseInfoForEdit } from '../../../inte
     selector: 'courses',
     styleUrls: ['./courses.component.css'],
     templateUrl: './courses.component.html',
-    // changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export class CoursesComponent implements OnInit {

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ICourse, ICourseInfoForEdit, ICourseCreate } from '../interfaces/course-interfaces/course-interface';
-import { IStoreCallback } from '../interfaces/common/stores-interfaces';
+
 @Injectable()
 export class CoursesService {
-    private coursesChangeCallbacksArray: Array<IStoreCallback> = [];
     private currentMaxId: number = 1;
     private courses: Array<ICourse> = [
         {
@@ -27,30 +26,12 @@ export class CoursesService {
         }
     ];
 
-    public subscribeToChanges(cb: Function, context?: Object): void {
-        this.coursesChangeCallbacksArray.push({
-            cb: cb,
-            context: context
-        });
-    }
-
-    private callCbOnChanges(): void {
-        for (let cbObject of this.coursesChangeCallbacksArray) {
-            if (cbObject.context) {
-                cbObject.cb.call(cbObject.context);
-            } else {
-                cbObject.cb();
-            }
-        }
-    }
-
     private incrementMaxId(): void {
         this.currentMaxId++;
     }
 
     private addCourse(course: ICourse): void {
         this.courses.unshift(course);
-        this.callCbOnChanges();
     }
 
 
