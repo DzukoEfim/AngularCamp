@@ -1,9 +1,10 @@
-<div class="single-course">
+<div class="single-course" [courseBorder]="course.creatingDate" [ngClass]="{'top-rated-course': course.topRated}">
 
     <div class="row">
         <div class="col-md-10 col-lg-10 course-heading" *ngIf="!editMode">
-            <h3 *ngIf="!editMode">{{course.title}} | </h3>
-            <h4> {{course.duration}}</h4>
+            <h3 *ngIf="!editMode">{{course.title | uppercase}} | </h3>
+            <h4> {{course.duration | duration}}</h4>
+            <span *ngIf="course.topRated" class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
         </div>
 
         <div class="col-md-10 col-lg-10 course-heading edit-header" *ngIf="editMode">
@@ -29,8 +30,8 @@
             </div>
         </div>
 
-        <div class="col-md-2 col-lg-2 course-date-created">
-            <span>posted: {{course.creatingDate}}</span>
+        <div class="col-md-2 col-lg-2 course-date-created" >
+            <span>posted: {{course.creatingDate | date}}</span>
         </div>
 
     </div>

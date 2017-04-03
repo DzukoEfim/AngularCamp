@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { ICourse, ICourseInfoForDelete, ICourseInfoForEdit } from '../../../interfaces/course-interfaces/course-interface';
+import { ICourse } from '../../../interfaces/course-interfaces/course-interface';
 
 @Component({
     selector: 'courses',
@@ -11,9 +11,9 @@ import { ICourse, ICourseInfoForDelete, ICourseInfoForEdit } from '../../../inte
 export class CoursesComponent implements OnInit {
     @Input('courses') courses: Array<ICourse>;
     @Output('onCourseDelete') onCourseDelete = new EventEmitter<number>();
-    @Output('onCourseEdit') onCourseEdit = new EventEmitter<ICourseInfoForEdit>();
+    @Output('onCourseEdit') onCourseEdit = new EventEmitter<ICourse>();
     public showDeleteAlert: boolean = false;
-    public courseInfo: ICourseInfoForDelete;
+    public courseInfo: {id: number, title: string};
 
     public ngOnInit() {
         console.log('course OnInit, courses array - ', this.courses);
@@ -29,12 +29,12 @@ export class CoursesComponent implements OnInit {
         this.showDeleteAlert = false;
     }
 
-    public openAlert(courseInfo: ICourseInfoForDelete): void {
+    public openAlert(courseInfo: {id: number, title: string}): void {
         this.courseInfo = courseInfo;
         this.showDeleteAlert = true;
     }
 
-    public editCourse(courseEditObject: ICourseInfoForEdit): void {
+    public editCourse(courseEditObject: ICourse): void {
         this.onCourseEdit.emit(courseEditObject);
     }
 }

@@ -3,9 +3,6 @@ interface IBreadcrumb {
   url: string
 }
 
-//interface IBreadcrumbsArray extends Array<IBreadcrumb>{}
-
 export {
   IBreadcrumb
-  //IBreadcrumbsArray
 }

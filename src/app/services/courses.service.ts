@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ICourse, ICourseInfoForEdit, ICourseCreate } from '../interfaces/course-interfaces/course-interface';
+import { ICourse } from '../interfaces/course-interfaces/course-interface';
 
 @Injectable()
 export class CoursesService {
@@ -8,8 +8,9 @@ export class CoursesService {
         {
             id: 0,
             title: 'First Angular Course',
-            creatingDate: '2017-03-12',
-            duration: '1h 20m',
+            creatingDate: '2017-03-25',
+            duration: 120,
+            topRated: true,
             description: 'Lorem ipsum dolor sit amet, mei at dolorum sensibus, ubique utroque quaerendum ' +
             'quo eu. Ad omnium aperiri evertitur sit, has id feugiat noluisse. Pri ne ullum elitr molestie, ' +
             'delicata ullamcorper nam ad. An duo vero tritani alienum, at mei habemus gubergren.'
@@ -17,12 +18,35 @@ export class CoursesService {
         {
             id: 1,
             title: 'First React Course',
-            creatingDate: '2016-12-25',
-            duration: '1h 34m',
+            creatingDate: '2017-5-25',
+            duration: 54,
+            topRated: false,
             description: 'Per cu dico salutatus, vel possit sanctus id, at augue consul pro. Ex ius modus dicat ' +
             'movet, vel an vitae sanctus omnesque. Ea persius voluptua adolescens vel. Mel ut laudem tibique ' +
             'probatus, dicant epicuri maluisset eu eos, ius fugit nobis ne. Eam id movet nominavi aliquando. ' +
             'Hinc prima ornatus no vel, an sea case lucilius deseruisse.'
+        },
+        {
+            id: 3,
+            title: 'Old Course',
+            creatingDate: '2016-5-25',
+            duration: 147,
+            topRated: false,
+            description: 'Cras sed sapien nec nisl lobortis sodales. Morbi ornare pellentesque luctus. ' +
+            'Aenean porttitor pharetra risus eget interdum. Nullam molestie lacus fermentum purus auctor, non ' +
+            'pulvinar felis posuere. Cras eget mi ex. Integer elementum sed sapien et varius. Cras eu ex lacinia, ' +
+            'luctus enim eget, tristique mi. Nunc ut metus et justo tempus congue eu eget lectus.'
+        },
+        {
+            id: 4,
+            title: 'The most newest course',
+            creatingDate: '2017-6-31',
+            duration: 186,
+            topRated: false,
+            description: 'Cras sed sapien nec nisl lobortis sodales. Morbi ornare pellentesque luctus. ' +
+            'Aenean porttitor pharetra risus eget interdum. Nullam molestie lacus fermentum purus auctor, non ' +
+            'pulvinar felis posuere. Cras eget mi ex. Integer elementum sed sapien et varius. Cras eu ex lacinia, ' +
+            'luctus enim eget, tristique mi. Nunc ut metus et justo tempus congue eu eget lectus.'
         }
     ];
 
@@ -39,7 +63,7 @@ export class CoursesService {
         return this.courses;
     }
 
-    public createCourse(courseObject: ICourseCreate): void {
+    public createCourse(courseObject: ICourse): void {
         this.incrementMaxId();
 
         let currentDate = new Date();
@@ -55,7 +79,7 @@ export class CoursesService {
         this.addCourse(newCourse);
     }
 
-    public updateCourse(courseObject: ICourseInfoForEdit): void {
+    public updateCourse(courseObject: ICourse): void {
         let course = this.getCourseById(courseObject.id);
         course.title = courseObject.title;
         course.description = courseObject.description;

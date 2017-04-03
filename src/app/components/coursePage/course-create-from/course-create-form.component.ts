@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { ICourseCreate } from '../../../interfaces/course-interfaces/course-interface';
+import { ICourse } from '../../../interfaces/course-interfaces/course-interface';
 
 @Component({
     selector: 'course-create-form',
@@ -13,7 +13,7 @@ export class CourseCreateFormComponent {
     @Output('onAddNewCourse') onAddNewCourse = new EventEmitter<Object>();
 
     public title: string = '';
-    public duration: string = '';
+    public duration: number = 0;
     public description: string = '';
 
     public onFormClose(): void {
@@ -22,12 +22,12 @@ export class CourseCreateFormComponent {
 
     public clearFormData(): void {
         this.title = '';
-        this.duration = '';
+        this.duration = 0;
         this.description = '';
     }
 
     public onCourseCreate(): void {
-        let courseObject: ICourseCreate = {
+        let courseObject: ICourse = {
             title: this.title,
             duration: this.duration,
             description: this.description

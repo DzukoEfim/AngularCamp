@@ -13,8 +13,8 @@ export class AppHeaderComponent implements OnInit {
     public breadcrumbs: IBreadcrumb[];
     public userInfo: Object;
 
-    constructor(private loginService: LoginService, private ref: ChangeDetectorRef) {
-        this.ref = ref;
+    constructor(private loginService: LoginService, private changeDetector: ChangeDetectorRef) {
+        this.changeDetector = changeDetector;
         this.loginService = loginService;
 
         this.breadcrumbs = [
@@ -32,7 +32,7 @@ export class AppHeaderComponent implements OnInit {
     ngOnInit() {
         this.loginService.userInfo.subscribe( (userInfo) => {
             this.userInfo = userInfo;
-            this.ref.markForCheck();
+            this.changeDetector.markForCheck();
         });
     }
 

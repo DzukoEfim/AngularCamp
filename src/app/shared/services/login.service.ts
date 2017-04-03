@@ -19,7 +19,7 @@ export class LoginService {
         setTimeout( () => {
             this._userInfo.next({userName: userName, token: token, loggedStatus: true});
             this.loaderService.disableLoader();
-        }, Math.random() * 5000);
+        }, Math.random() * 3000);
 
     }
 
@@ -28,7 +28,7 @@ export class LoginService {
         setTimeout( () => {
             this._userInfo.next({loggedStatus: false});
             this.loaderService.disableLoader();
-        }, Math.random() * 5000);
+        }, Math.random() * 3000);
 
     }
 }

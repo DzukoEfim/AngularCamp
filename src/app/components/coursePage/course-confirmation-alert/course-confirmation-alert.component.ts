@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { ICourseInfoForDelete } from '../../../interfaces/course-interfaces/course-interface';
+
 
 @Component({
     selector: 'course-confirmation-alert',
@@ -9,7 +9,7 @@ import { ICourseInfoForDelete } from '../../../interfaces/course-interfaces/cour
 })
 
 export class CourseConfirmationAlertComponent {
-    @Input('courseInfo') courseInfo: ICourseInfoForDelete ;
+    @Input('courseInfo') courseInfo: {id: number, title: string} ;
     @Output('onClose') onClose = new EventEmitter<void>();
     @Output('onSubmit') onSubmit = new EventEmitter<number>();
 

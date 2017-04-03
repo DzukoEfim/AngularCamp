@@ -11,6 +11,11 @@ navigate to localhost:8080
 
 ### Changelog
 
+###### 3.04.2017
+1) Added directives
+2) Added pipes
+3) Removed some interfaced ( :( )
+
 ###### 27.03.2017
 1) Added Observable
 2) Added profile

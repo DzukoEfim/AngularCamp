@@ -1,28 +1,12 @@
 interface ICourse {
-    id: number;
+    id ?: number;
     title: string,
-    creatingDate: string,
-    duration: string,
-    description: string
+    creatingDate ?: string,
+    duration: number,
+    description: string,
+    topRated ?: boolean
 }
 
-interface ICourseCreate {
-    title: string,
-    duration: string,
-    description: string
-}
-
-interface ICourseInfoForDelete {
-    id: number,
-    title: string
-}
-
-interface ICourseInfoForEdit extends ICourseCreate {
-    id: number
-}
 export {
-    ICourse,
-    ICourseCreate,
-    ICourseInfoForDelete,
-    ICourseInfoForEdit
+    ICourse
 }

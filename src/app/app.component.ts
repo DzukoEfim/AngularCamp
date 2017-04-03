@@ -4,7 +4,7 @@ import { LoaderService } from './shared/services/loader.service';
 import { IUserInfo } from './interfaces/common/login-interface';
 
 @Component({
-    selector: 'my-app', // <my-app></my-app>
+    selector: 'my-app',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -30,7 +30,6 @@ export class AppComponent implements OnInit {
             this.userInfo = userInfo;
         });
         this.loaderService.showLoader.subscribe( (value) => {
-            console.log(value);
             this.showLoader = value;
         });
     }

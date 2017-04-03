@@ -3,3 +3,11 @@
     margin-bottom: 15px;
     padding: 5px;
 }
+
+.no-courses {
+    text-align: center;
+    padding: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom:15px;
+}

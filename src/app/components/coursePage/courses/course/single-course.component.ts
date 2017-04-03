@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ICourse, ICourseInfoForDelete, ICourseInfoForEdit }  from '../../../../interfaces/course-interfaces/course-interface';
+import { ICourse }  from '../../../../interfaces/course-interfaces/course-interface';
+
 @Component({
     selector: 'single-course',
     styleUrls: ['./single-course.component.css'],
@@ -8,13 +9,13 @@ import { ICourse, ICourseInfoForDelete, ICourseInfoForEdit }  from '../../../../
 })
 
 export class SingleCourseComponent implements OnInit {
-    @Output('onCourseDelete') onCourseDelete = new EventEmitter<ICourseInfoForDelete>();
-    @Output('onCourseEdit') onCourseEdit = new EventEmitter<ICourseInfoForEdit>();
+    @Output('onCourseDelete') onCourseDelete = new EventEmitter<{id: number, title: string}>();
+    @Output('onCourseEdit') onCourseEdit = new EventEmitter<ICourse>();
     @Input('course') course: ICourse;
     public editMode: boolean = false;
 
     public editTitle: string;
-    public editDuration: string;
+    public editDuration: number;
     public editDescription: string;
 
     ngOnInit() {

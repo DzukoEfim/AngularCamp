@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { LoginService } from './services/login.service';
 import { LoaderService } from './services/loader.service';
+import { TimeService } from './services/time.service';
 
 const angularModules = [
 ];
@@ -16,7 +17,8 @@ const angularModules = [
 
     providers: [
         LoginService,
-        LoaderService
+        LoaderService,
+        TimeService
     ],
 })
 export class CoreModule {}
