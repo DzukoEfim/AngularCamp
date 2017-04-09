@@ -1,0 +1,21 @@
+<div class="row course-page">
+    <div class="col-md-12 col-lg-12 control-panel">
+        <course-control-panel
+                (onCourseSearch)="onCourseSearch($event)"
+                (onAddNewClick)="onAddNewClick()"
+        >
+        </course-control-panel>
+    </div>
+
+    <div class="col-md-12 col-lg-12 courses" *ngIf="showCreateCourseForm">
+        <course-create-form (onAddNewCourse)="onAddNewCourse($event)" (onCreateFormClose)="onCreateFormClose()"></course-create-form>
+    </div>
+
+    <div class="col-md-12 col-lg-12 courses" *ngIf="courses.length !== 0">
+        <courses [courses]="courses | sortByDate" (onCourseDelete)="onCourseDelete($event)" (onCourseEdit)="onCourseEdit($event)"></courses>
+    </div>
+
+    <div class="col-md-12 col-lg-12 no-courses" *ngIf="courses.length === 0">
+        No data. Feel free to add new courses :)
+    </div>
+</div>

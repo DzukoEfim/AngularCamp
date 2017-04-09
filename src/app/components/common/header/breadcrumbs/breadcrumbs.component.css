@@ -1,0 +1,9 @@
+.breadcrumb-container {
+    display: inline-block;
+    position: absolute;
+    bottom: 75px;
+}
+
+.breadcrumb-container ol, .breadcrumb-container li {
+    background: white;
+}

@@ -1,0 +1,20 @@
+<div class="row header">
+    <div class="col-md-4 col-lg-4">
+        <course-logo></course-logo>
+    </div>
+
+    <div class="col-md-4 col-lg-4 breadcrumb-container" *ngIf="userInfo.loggedStatus">
+        <course-breadcrumbs [breadcrumbs]="breadcrumbs"></course-breadcrumbs>
+    </div>
+
+    <div class="col-md-4 col-lg-4" *ngIf="userInfo.loggedStatus">
+        <div class="row logged-form">
+            <div class="col-md-6 col-md-6 welcome-text">
+                <span>Welcome, {{userInfo.userName}}!</span>
+            </div>
+            <div class="col-md-6 col-md-6">
+                <button (click)="logOutUser()" class="btn btn-default logout-button" type="button">Logout</button>
+            </div>
+        </div>
+    </div>
+</div>

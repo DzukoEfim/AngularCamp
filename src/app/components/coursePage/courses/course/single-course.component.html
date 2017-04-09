@@ -1,0 +1,64 @@
+<div class="single-course" [courseBorder]="course.date" [ngClass]="{'top-rated-course': course.topRated}">
+
+    <div class="row">
+        <div class="col-md-10 col-lg-10 course-heading" *ngIf="!editMode">
+            <h3 *ngIf="!editMode">{{course.title | uppercase}} | </h3>
+            <h4> {{course.duration | duration}}</h4>
+            <span *ngIf="course.topRated" class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+        </div>
+
+        <div class="col-md-10 col-lg-10 course-heading edit-header" *ngIf="editMode">
+            <div class="edit-title row">
+                <div class="col-md-6 col-lg-6">
+                    <label for="title-edit">Title</label>
+                    <input
+                        [(ngModel)]="editTitle"
+                        placeholder="Title"
+                        class="form-control"
+                        id="title-edit"
+                    />
+                </div>
+                <div class="col-md-6 col-lg-6">
+                    <label for="duration-edit">Duration</label>
+                    <input
+                        [(ngModel)]="editDuration"
+                        placeholder="Duration"
+                        class="form-control"
+                        id="duration-edit"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2 col-lg-2 course-date-created" >
+            <span>posted: {{course.date | date}}</span>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-10 col-lg-10"  *ngIf="!editMode">
+            {{course.description}}
+        </div>
+
+        <div class="col-md-10 col-lg-10"  *ngIf="editMode">
+            <label for="description-edit">Description</label>
+            <textarea
+                    id="description-edit"
+                    [(ngModel)]="editDescription"
+                    class="form-control" rows="3">
+            </textarea>
+        </div>
+
+        <div class="col-md-2 col-lg-2" *ngIf="!editMode">
+            <button type="button" class="btn btn-primary" (click)="switchEditMode()">Edit</button>
+            <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
+        </div>
+
+        <div class="col-md-2 col-lg-2" *ngIf="editMode">
+            <button type="button" class="btn btn-primary" (click)="onEdit()">Save</button>
+            <button type="button" class="btn btn-danger" (click)="switchEditMode()">Close</button>
+        </div>
+
+    </div>
+</div>

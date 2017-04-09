@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-md-12 col-log-12">
+        <h3>Control panel</h3>
+    </div>
+    <div class="col-md-9 col-lg-9">
+        <div class="row">
+            <div class="col-md-6 col-md-6">
+                <input
+                    [(ngModel)]="searchText"
+                    placeholder="Find course by name..."
+                    class="form-control"
+                >
+            </div>
+
+            <div class="col-md-6 col-md-6">
+                <button type="button" class="btn btn-primary" (click)="searchCourse()">Find</button>
+                <button type="button" class="btn btn-default" (click)="onCourseClear()">Clear</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-3 col-lg-3 control-buttons">
+        <div>
+            <button type="button" class="btn btn-primary" (click)="onAddNew()">Add new</button>
+        </div>
+    </div>
+</div>

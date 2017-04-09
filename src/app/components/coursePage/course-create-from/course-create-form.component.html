@@ -1,0 +1,43 @@
+<div class="single-course create-form">
+
+    <div class="row">
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Title</label>
+                <input [(ngModel)]="title"
+                       type="text"
+                       class="form-control"
+                       placeholder="Title">
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Course duration</label>
+                <input [(ngModel)]="duration"
+                       type="text"
+                       class="form-control"
+                       id="exampleInputEmail1"
+                       placeholder="Duration">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Description</label>
+                <textarea
+                        [(ngModel)]="description"
+                        class="form-control" rows="3">
+                </textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <button type="button" class="btn btn-primary" (click)="onFormClose()">Close</button>
+            <button type="button" class="btn btn-default" (click)="onCourseCreate()">Create</button>
+        </div>
+    </div>
+</div>
