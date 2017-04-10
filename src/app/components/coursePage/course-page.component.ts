@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { ICourse } from '../../interfaces/course-interfaces/course-interface';
 import { CoursesService } from '../../services/courses.service';
-import { FilterCoursesPipe } from '../../pipes/filter-courses.pipe';
+import { TimeService } from '../../shared/services/time.service';
 
 @Component({
     selector: 'course-page',
@@ -10,18 +10,38 @@ import { FilterCoursesPipe } from '../../pipes/filter-courses.pipe';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CoursePageComponent {
-    courses: Array<ICourse>;
+export class CoursePageComponent implements OnInit {
+    courses: Array<ICourse> = [];
     showCreateCourseForm: boolean = false;
 
     public filteredCourses: Array<ICourse>;
 
-    constructor( private coursesService: CoursesService, private filterCoursesPipe: FilterCoursesPipe) {
-        this.courses = this.coursesService.getCoursesList();
+    constructor( private coursesService: CoursesService,
+                 private timeService: TimeService
+    ) {
+        this.timeService = timeService;
     }
 
-    public onCourseSearch(valueObject: {value: string}) {
-        this.courses = this.filterCoursesPipe.transform(this.coursesService.getCoursesList(), valueObject.value);
+    ngOnInit() {
+        this.coursesService.getCoursesList()
+            .map( courses => courses )
+            .filter( function (course, index) {
+                console.log(course, index);
+                return true
+            })
+            .subscribe( (courses) => {
+                this.courses = courses.filter( singleCourse => {
+                    let courseDateCreate = new Date(singleCourse.date),
+                        currentDate = new Date();
+                    console.log(singleCourse.title, this.timeService.getDaysInDate(courseDateCreate), this.timeService.getDaysInDate(currentDate) - 14);
+                    return this.timeService.getDaysInDate(courseDateCreate) > (this.timeService.getDaysInDate(currentDate) - 14);
+                });
+            });
+
+    }
+
+    public onCourseSearch(valueObject: {value: string}): void {
+        this.coursesService.filterCourses(valueObject.value);
     }
 
     public onAddNewClick(): void {

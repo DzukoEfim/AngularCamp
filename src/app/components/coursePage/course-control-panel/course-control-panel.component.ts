@@ -21,6 +21,9 @@ export class CourseControlPanelComponent {
 
     public onCourseClear(): void {
         this.searchText = '';
+        this.onCourseSearch.emit({
+            value: this.searchText
+        });
     }
 
     public onAddNew(): void {

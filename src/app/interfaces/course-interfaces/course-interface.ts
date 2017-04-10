@@ -1,7 +1,7 @@
 interface ICourse {
     id ?: number;
     title: string,
-    creatingDate ?: string,
+    date ?: Date,
     duration: number,
     description: string,
     topRated ?: boolean

@@ -1,4 +1,4 @@
-<div class="single-course" [courseBorder]="course.creatingDate" [ngClass]="{'top-rated-course': course.topRated}">
+<div class="single-course" [courseBorder]="course.date" [ngClass]="{'top-rated-course': course.topRated}">
 
     <div class="row">
         <div class="col-md-10 col-lg-10 course-heading" *ngIf="!editMode">
@@ -31,7 +31,7 @@
         </div>
 
         <div class="col-md-2 col-lg-2 course-date-created" >
-            <span>posted: {{course.creatingDate | date}}</span>
+            <span>posted: {{course.date | date}}</span>
         </div>
 
     </div>

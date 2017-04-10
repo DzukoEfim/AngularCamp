@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ICourse } from '../interfaces/course-interfaces/course-interface';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { FilterCoursesPipe } from '../pipes/filter-courses.pipe';
 
 @Injectable()
 export class CoursesService {
@@ -8,7 +10,7 @@ export class CoursesService {
         {
             id: 0,
             title: 'First Angular Course',
-            creatingDate: '2017-03-25',
+            date: new Date('2017-03-25'),
             duration: 120,
             topRated: true,
             description: 'Lorem ipsum dolor sit amet, mei at dolorum sensibus, ubique utroque quaerendum ' +
@@ -18,7 +20,7 @@ export class CoursesService {
         {
             id: 1,
             title: 'First React Course',
-            creatingDate: '2017-5-25',
+            date: new Date('2017-4-25'),
             duration: 54,
             topRated: false,
             description: 'Per cu dico salutatus, vel possit sanctus id, at augue consul pro. Ex ius modus dicat ' +
@@ -29,7 +31,7 @@ export class CoursesService {
         {
             id: 3,
             title: 'Old Course',
-            creatingDate: '2016-5-25',
+            date: new Date('2016-4-25'),
             duration: 147,
             topRated: false,
             description: 'Cras sed sapien nec nisl lobortis sodales. Morbi ornare pellentesque luctus. ' +
@@ -40,7 +42,7 @@ export class CoursesService {
         {
             id: 4,
             title: 'The most newest course',
-            creatingDate: '2017-6-31',
+            date: new Date('2017-4-31'),
             duration: 186,
             topRated: false,
             description: 'Cras sed sapien nec nisl lobortis sodales. Morbi ornare pellentesque luctus. ' +
@@ -50,30 +52,34 @@ export class CoursesService {
         }
     ];
 
+    private _coursesObservable: BehaviorSubject<ICourse[]> = <BehaviorSubject<ICourse[]>> new BehaviorSubject(this.courses);
+    private coursesObservable: Observable<ICourse[]> = this._coursesObservable.asObservable();
+
+    constructor(private filterCoursePipe: FilterCoursesPipe) {
+    }
+
     private incrementMaxId(): void {
         this.currentMaxId++;
     }
 
     private addCourse(course: ICourse): void {
         this.courses.unshift(course);
+        this._coursesObservable.next(this.courses);
     }
 
-
-    public getCoursesList(): Array<ICourse> {
-        return this.courses;
+    public getCoursesList(): Observable<ICourse[]> {
+        return this.coursesObservable;
     }
 
     public createCourse(courseObject: ICourse): void {
         this.incrementMaxId();
-
-        let currentDate = new Date();
 
         let newCourse: ICourse = {
             id: this.currentMaxId,
             title: courseObject.title,
             duration: courseObject.duration,
             description: courseObject.description,
-            creatingDate: `${currentDate.getFullYear()} - ${currentDate.getMonth()} - ${currentDate.getDay()}`
+            date: new Date()
         };
 
         this.addCourse(newCourse);
@@ -84,11 +90,13 @@ export class CoursesService {
         course.title = courseObject.title;
         course.description = courseObject.description;
         course.duration = courseObject.duration;
+        this._coursesObservable.next(this.courses);
     }
 
     public deleteCourse(id: number): void {
         let courseIndex = this.getCourseById(id);
         this.courses.splice(this.courses.indexOf(courseIndex), 1);
+        this._coursesObservable.next(this.courses);
     }
 
     public getCourseById(id: number): any {
@@ -99,5 +107,9 @@ export class CoursesService {
         });
 
         return this.courses[elementIndex];
+    }
+
+    public filterCourses(filterText: string): void {
+        this._coursesObservable.next(this.filterCoursePipe.transform(this.courses, filterText));
     }
 }

@@ -8,6 +8,7 @@ export class FilterCoursesPipe implements PipeTransform {
 
     transform(data, searchText: string) {
         if (!searchText) {
+            console.log(data);
             return data;
         }
 

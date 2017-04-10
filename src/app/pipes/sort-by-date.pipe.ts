@@ -7,8 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class SortByDatePipe implements PipeTransform {
 
     transform(data) {
-        return data.sort( (cur: {creatingDate: Date, topRated: boolean}, next: {creatingDate: Date}) =>  {
-            return cur.topRated ? -1 : new Date(next.creatingDate).getTime() - new Date(cur.creatingDate).getTime();
-        });
+        return data.sort( (cur: {date: Date, topRated: boolean}, next: {date: Date}) =>  {
+            return cur.topRated ? -1 : new Date(next.date).getTime() - new Date(cur.date).getTime();
+    });
     }
 }
