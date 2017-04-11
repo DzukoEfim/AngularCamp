@@ -11,6 +11,11 @@ navigate to localhost:8080
 
 ### Changelog
 
+###### 11.04.2017
+1) added some Observables
+2) implemented fake component from creating courses
+3) there is no Observable.of(), but i used it, changed to BehaviourSubject after talking to mentor
+
 ###### 3.04.2017
 1) Added directives
 2) Added pipes

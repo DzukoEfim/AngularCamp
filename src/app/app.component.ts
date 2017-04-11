@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, NgZone, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { LoginService } from './shared/services/login.service';
 import { LoaderService } from './shared/services/loader.service';
 import { IUserInfo } from './interfaces/common/login-interface';
@@ -9,10 +9,12 @@ import { IUserInfo } from './interfaces/common/login-interface';
     styleUrls: ['./app.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
     public title: string;
     public userInfo: IUserInfo;
     public showLoader: boolean = false;
+    private subLogin: any;
+    private subLoader: any;
 
     constructor(private loginservice: LoginService, private _ngZone: NgZone, private loaderService: LoaderService) {
         this._ngZone = _ngZone;
@@ -26,11 +28,17 @@ export class AppComponent implements OnInit {
         this._ngZone.onStable.subscribe( () => {
             console.timeEnd('test');
         });
-        this.loginservice.userInfo.subscribe( (userInfo) => {
+        this.subLogin = this.loginservice.userInfo.subscribe( (userInfo) => {
             this.userInfo = userInfo;
         });
-        this.loaderService.showLoader.subscribe( (value) => {
+        this.subLoader = this.loaderService.showLoader.subscribe( (value) => {
             this.showLoader = value;
         });
     }
+
+    ngOnDestroy() {
+        this.subLogin.unsubscribe();
+        this.subLoader.unsubscribe();
+    }
+
 }

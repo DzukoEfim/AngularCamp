@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { IBreadcrumb }  from '../../../interfaces/course-interfaces/breacrumbs-interface';
 import { LoginService } from '../../../shared/services/login.service';
 
@@ -9,9 +9,10 @@ import { LoginService } from '../../../shared/services/login.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class AppHeaderComponent implements OnInit {
+export class AppHeaderComponent implements OnInit, OnDestroy {
     public breadcrumbs: IBreadcrumb[];
     public userInfo: Object;
+    public sub: any;
 
     constructor(private loginService: LoginService, private changeDetector: ChangeDetectorRef) {
         this.changeDetector = changeDetector;
@@ -30,10 +31,14 @@ export class AppHeaderComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.loginService.userInfo.subscribe( (userInfo) => {
+        this.sub = this.loginService.userInfo.subscribe( (userInfo) => {
             this.userInfo = userInfo;
             this.changeDetector.markForCheck();
         });
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 
     onBreadcrumbClick = function (name: string): void {

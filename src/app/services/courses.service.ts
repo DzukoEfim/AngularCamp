@@ -52,19 +52,29 @@ export class CoursesService {
         }
     ];
 
-    private _coursesObservable: BehaviorSubject<ICourse[]> = <BehaviorSubject<ICourse[]>> new BehaviorSubject(this.courses);
+    private _coursesObservable: BehaviorSubject<ICourse[]> = <BehaviorSubject<ICourse[]>> new BehaviorSubject([]);
     private coursesObservable: Observable<ICourse[]> = this._coursesObservable.asObservable();
 
     constructor(private filterCoursePipe: FilterCoursesPipe) {
+        setTimeout(() => {
+            this.notifyStreams();
+        }, 1000);
     }
 
     private incrementMaxId(): void {
         this.currentMaxId++;
     }
 
+    private notifyStreams() {
+        this._coursesObservable.next(this.courses);
+        // Observable.from(this.courses).subscribe( course => {
+        //     this._coursesObservable.next(course);
+        // });
+    }
+
     private addCourse(course: ICourse): void {
         this.courses.unshift(course);
-        this._coursesObservable.next(this.courses);
+        this.notifyStreams();
     }
 
     public getCoursesList(): Observable<ICourse[]> {
@@ -90,13 +100,13 @@ export class CoursesService {
         course.title = courseObject.title;
         course.description = courseObject.description;
         course.duration = courseObject.duration;
-        this._coursesObservable.next(this.courses);
+        this.notifyStreams();
     }
 
     public deleteCourse(id: number): void {
         let courseIndex = this.getCourseById(id);
         this.courses.splice(this.courses.indexOf(courseIndex), 1);
-        this._coursesObservable.next(this.courses);
+        this.notifyStreams();
     }
 
     public getCourseById(id: number): any {
@@ -110,6 +120,7 @@ export class CoursesService {
     }
 
     public filterCourses(filterText: string): void {
-        this._coursesObservable.next(this.filterCoursePipe.transform(this.courses, filterText));
+        let filteredCourses = this.filterCoursePipe.transform(this.courses, filterText);
+        this._coursesObservable.next(filteredCourses);
     }
 }

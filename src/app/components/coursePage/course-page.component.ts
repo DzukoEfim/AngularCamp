@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
 import { ICourse } from '../../interfaces/course-interfaces/course-interface';
 import { CoursesService } from '../../services/courses.service';
 import { TimeService } from '../../shared/services/time.service';
@@ -10,34 +10,80 @@ import { TimeService } from '../../shared/services/time.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CoursePageComponent implements OnInit {
+export class CoursePageComponent implements OnInit, OnDestroy {
     courses: Array<ICourse> = [];
     showCreateCourseForm: boolean = false;
+
+    private sub: any;
 
     public filteredCourses: Array<ICourse>;
 
     constructor( private coursesService: CoursesService,
-                 private timeService: TimeService
+                 private timeService: TimeService,
+                 private _changeDetectionRed: ChangeDetectorRef
     ) {
         this.timeService = timeService;
     }
 
     ngOnInit() {
+        /*
+        *
+        * single courses stream
+        *
+        * */
+        // this.coursesService.getCoursesList()
+        //     .map( course => course )
+        //     .filter( singleCourse => {
+        //         let courseDateCreate = new Date(singleCourse.date),
+        //             currentDate = new Date();
+        //
+        //         return singleCourse.duration === 0 ?
+        //                  true :
+        //                  this.timeService.getDaysInDate(courseDateCreate) > (this.timeService.getDaysInDate(currentDate) - 14);
+        //     })
+        //     .subscribe(
+        //         (course) => {
+        //             console.log(course);
+        //             if (course.duration === 0) {
+        //                 this.courses = [];
+        //                 this._changeDetectionRed.markForCheck();
+        //             } else {
+        //                 this.courses.push(course);
+        //                 this._changeDetectionRed.markForCheck();
+        //             }
+        //         },
+        //         error => {
+        //             console.log(error);
+        //         },
+        //
+        //         () => {
+        //             console.log('completed!');
+        //         }
+        //     );
         this.coursesService.getCoursesList()
-            .map( courses => courses )
-            .filter( function (course, index) {
-                console.log(course, index);
-                return true
-            })
-            .subscribe( (courses) => {
-                this.courses = courses.filter( singleCourse => {
-                    let courseDateCreate = new Date(singleCourse.date),
-                        currentDate = new Date();
-                    console.log(singleCourse.title, this.timeService.getDaysInDate(courseDateCreate), this.timeService.getDaysInDate(currentDate) - 14);
-                    return this.timeService.getDaysInDate(courseDateCreate) > (this.timeService.getDaysInDate(currentDate) - 14);
-                });
-            });
+            .map( course => course )
+            .subscribe(
+                (courses) => {
+                    this.courses = courses.filter( singleCourse => {
+                        let courseDateCreate = new Date(singleCourse.date),
+                            currentDate = new Date();
 
+                        return this.timeService.getDaysInDate(courseDateCreate) > (this.timeService.getDaysInDate(currentDate) - 14);
+                    });
+                    this._changeDetectionRed.markForCheck();
+                },
+                error => {
+                    console.log(error);
+                },
+
+                () => {
+                    console.log('completed!');
+                }
+            );
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 
     public onCourseSearch(valueObject: {value: string}): void {
