@@ -10,7 +10,7 @@ export class LoginService {
 
     constructor(private loaderService: LoaderService) {
         this.loaderService = loaderService;
-        this._userInfo = <BehaviorSubject<IUserInfo>>new BehaviorSubject({loggedStatus: true});
+        this._userInfo = <BehaviorSubject<IUserInfo>>new BehaviorSubject({loggedStatus: false});
         this.userInfo = this._userInfo.asObservable();
     }
 

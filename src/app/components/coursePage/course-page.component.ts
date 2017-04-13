@@ -60,7 +60,7 @@ export class CoursePageComponent implements OnInit, OnDestroy {
         //             console.log('completed!');
         //         }
         //     );
-        this.coursesService.getCoursesList()
+        this.sub = this.coursesService.getCoursesList()
             .map( course => course )
             .subscribe(
                 (courses) => {

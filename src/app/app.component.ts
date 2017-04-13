@@ -16,9 +16,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private subLogin: any;
     private subLoader: any;
 
-    constructor(private loginservice: LoginService, private _ngZone: NgZone, private loaderService: LoaderService) {
+    constructor(private loginService: LoginService, private _ngZone: NgZone, private loaderService: LoaderService) {
         this._ngZone = _ngZone;
         this.loaderService = loaderService;
+        this.loginService = loginService;
     }
 
     ngOnInit() {
@@ -28,7 +29,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this._ngZone.onStable.subscribe( () => {
             console.timeEnd('test');
         });
-        this.subLogin = this.loginservice.userInfo.subscribe( (userInfo) => {
+        this.subLogin = this.loginService.userInfo.subscribe( (userInfo) => {
             this.userInfo = userInfo;
         });
         this.subLoader = this.loaderService.showLoader.subscribe( (value) => {
