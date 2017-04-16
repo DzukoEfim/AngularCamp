@@ -1,5 +1,7 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { LoginService } from '../../shared/services/login.service';
+
+import { IUserInfo } from '../../interfaces/common/login-interface';
 
 @Component({
     selector: 'login-form',
@@ -9,12 +11,14 @@ import { LoginService } from '../../shared/services/login.service';
 })
 
 export class LoginFormComponent {
+    @Input('userInfo') userInfo: IUserInfo;
     public userName: string = '';
     public password: string = '';
     public formValid: boolean = true;
 
-    constructor(private loginService: LoginService) {
-        this.loginService = loginService;
+    constructor(
+        private loginService: LoginService
+    ) {
     }
 
     public logInUser (): void {

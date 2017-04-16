@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "First Angular Course",
+    "date": "2017-04-25",
+    "duration": 120,
+    "topRated": true,
+    "description": "Lorem ipsum dolor sit amet, mei at dolorum sensibus, ubique utroque quaerendum quo eu. Ad omnium aperiri evertitur sit, has id feugiat noluisse. Pri ne ullum elitr molestie,     'delicata ullamcorper nam ad. An duo vero tritani alienum, at mei habemus gubergren."
+  },
+  {
+    "id": 2,
+    "title": "First React Course",
+    "date": "2017-4-25",
+    "duration": 54,
+    "topRated": false,
+    "description": "Per cu dico salutatus, vel possit sanctus id, at augue consul pro. Ex ius modus dicat movet, vel an vitae sanctus omnesque. Ea persius voluptua adolescens vel. Mel ut laudem tibique probatus, dicant epicuri maluisset eu eos, ius fugit nobis ne. Eam id movet nominavi aliquando. Hinc prima ornatus no vel, an sea case lucilius deseruisse."
+  },
+  {
+    "id": 3,
+    "title": "Old Course",
+    "date": "2017-4-25",
+    "duration": 147,
+    "topRated": false,
+    "description": "Cras sed sapien nec nisl lobortis sodales. Morbi ornare pellentesque luctus. Aenean porttitor pharetra risus eget interdum. Nullam molestie lacus fermentum purus auctor, non pulvinar felis posuere. Cras eget mi ex. Integer elementum sed sapien et varius. Cras eu ex lacinia, luctus enim eget, tristique mi. Nunc ut metus et justo tempus congue eu eget lectus."
+  },
+  {
+    "id": 4,
+    "title": "The most newest course",
+    "date": "2017-5-25",
+    "duration": 186,
+    "topRated": false,
+    "description": "Cras sed sapien nec nisl lobortis sodales. Morbi ornare pellentesque luctus. Aenean porttitor pharetra risus eget interdum. Nullam molestie lacus fermentum purus auctor, non pulvinar felis posuere. Cras eget mi ex. Integer elementum sed sapien et varius. Cras eu ex lacinia, luctus enim eget, tristique mi. Nunc ut metus et justo tempus congue eu eget lectus."
+  },
+  {
+    "id": 5,
+    "title": "Test",
+    "date": "2017-5-25",
+    "duration": 186,
+    "topRated": false,
+    "description": "Cras sed sapien nec nisl lobortis sodales. Morbi ornare pellentesque luctus. Aenean porttitor pharetra risus eget interdum. Nullam molestie lacus fermentum purus auctor, non pulvinar felis posuere. Cras eget mi ex. Integer elementum sed sapien et varius. Cras eu ex lacinia, luctus enim eget, tristique mi. Nunc ut metus et justo tempus congue eu eget lectus."
+  }
+]

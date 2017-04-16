@@ -11,12 +11,12 @@ import { TimeService } from '../../shared/services/time.service';
 })
 
 export class CoursePageComponent implements OnInit, OnDestroy {
-    courses: Array<ICourse> = [];
-    showCreateCourseForm: boolean = false;
+    public courses: Array<ICourse> = [];
+    public showCreateCourseForm: boolean = false;
+
+    public totalCount: number = 0;
 
     private sub: any;
-
-    public filteredCourses: Array<ICourse>;
 
     constructor( private coursesService: CoursesService,
                  private timeService: TimeService,
@@ -26,50 +26,17 @@ export class CoursePageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        /*
-        *
-        * single courses stream
-        *
-        * */
-        // this.coursesService.getCoursesList()
-        //     .map( course => course )
-        //     .filter( singleCourse => {
-        //         let courseDateCreate = new Date(singleCourse.date),
-        //             currentDate = new Date();
-        //
-        //         return singleCourse.duration === 0 ?
-        //                  true :
-        //                  this.timeService.getDaysInDate(courseDateCreate) > (this.timeService.getDaysInDate(currentDate) - 14);
-        //     })
-        //     .subscribe(
-        //         (course) => {
-        //             console.log(course);
-        //             if (course.duration === 0) {
-        //                 this.courses = [];
-        //                 this._changeDetectionRed.markForCheck();
-        //             } else {
-        //                 this.courses.push(course);
-        //                 this._changeDetectionRed.markForCheck();
-        //             }
-        //         },
-        //         error => {
-        //             console.log(error);
-        //         },
-        //
-        //         () => {
-        //             console.log('completed!');
-        //         }
-        //     );
-        this.sub = this.coursesService.getCoursesList()
-            .map( course => course )
+        this.sub = this.coursesService.getCoursesList(1, 2)
+            .map( course => { return course; })
             .subscribe(
                 (courses) => {
-                    this.courses = courses.filter( singleCourse => {
+                    this.courses = courses.newCourses.filter( singleCourse => {
                         let courseDateCreate = new Date(singleCourse.date),
                             currentDate = new Date();
 
                         return this.timeService.getDaysInDate(courseDateCreate) > (this.timeService.getDaysInDate(currentDate) - 14);
                     });
+                    this.totalCount = courses.totalCount;
                     this._changeDetectionRed.markForCheck();
                 },
                 error => {
@@ -84,10 +51,6 @@ export class CoursePageComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.sub.unsubscribe();
-    }
-
-    public onCourseSearch(valueObject: {value: string}): void {
-        this.coursesService.filterCourses(valueObject.value);
     }
 
     public onAddNewClick(): void {

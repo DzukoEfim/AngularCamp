@@ -1,126 +1,117 @@
 import { Injectable } from '@angular/core';
-import { ICourse } from '../interfaces/course-interfaces/course-interface';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { FilterCoursesPipe } from '../pipes/filter-courses.pipe';
+import { Response } from '@angular/http';
+
+import { AuthorizedHttpService } from '../shared/services/authorized-http.service';
+
+import { ICourse } from '../interfaces/course-interfaces/course-interface';
 
 @Injectable()
 export class CoursesService {
-    private currentMaxId: number = 1;
-    private courses: Array<ICourse> = [
-        {
-            id: 0,
-            title: 'First Angular Course',
-            date: new Date('2017-03-25'),
-            duration: 120,
-            topRated: true,
-            description: 'Lorem ipsum dolor sit amet, mei at dolorum sensibus, ubique utroque quaerendum ' +
-            'quo eu. Ad omnium aperiri evertitur sit, has id feugiat noluisse. Pri ne ullum elitr molestie, ' +
-            'delicata ullamcorper nam ad. An duo vero tritani alienum, at mei habemus gubergren.'
-        },
-        {
-            id: 1,
-            title: 'First React Course',
-            date: new Date('2017-4-25'),
-            duration: 54,
-            topRated: false,
-            description: 'Per cu dico salutatus, vel possit sanctus id, at augue consul pro. Ex ius modus dicat ' +
-            'movet, vel an vitae sanctus omnesque. Ea persius voluptua adolescens vel. Mel ut laudem tibique ' +
-            'probatus, dicant epicuri maluisset eu eos, ius fugit nobis ne. Eam id movet nominavi aliquando. ' +
-            'Hinc prima ornatus no vel, an sea case lucilius deseruisse.'
-        },
-        {
-            id: 3,
-            title: 'Old Course',
-            date: new Date('2016-4-25'),
-            duration: 147,
-            topRated: false,
-            description: 'Cras sed sapien nec nisl lobortis sodales. Morbi ornare pellentesque luctus. ' +
-            'Aenean porttitor pharetra risus eget interdum. Nullam molestie lacus fermentum purus auctor, non ' +
-            'pulvinar felis posuere. Cras eget mi ex. Integer elementum sed sapien et varius. Cras eu ex lacinia, ' +
-            'luctus enim eget, tristique mi. Nunc ut metus et justo tempus congue eu eget lectus.'
-        },
-        {
-            id: 4,
-            title: 'The most newest course',
-            date: new Date('2017-4-31'),
-            duration: 186,
-            topRated: false,
-            description: 'Cras sed sapien nec nisl lobortis sodales. Morbi ornare pellentesque luctus. ' +
-            'Aenean porttitor pharetra risus eget interdum. Nullam molestie lacus fermentum purus auctor, non ' +
-            'pulvinar felis posuere. Cras eget mi ex. Integer elementum sed sapien et varius. Cras eu ex lacinia, ' +
-            'luctus enim eget, tristique mi. Nunc ut metus et justo tempus congue eu eget lectus.'
-        }
-    ];
+    private _coursesObservable: BehaviorSubject<{newCourses: ICourse[], totalCount: number}> =
+            <BehaviorSubject<{newCourses: ICourse[], totalCount: number}>> new BehaviorSubject({newCourses: [], totalCount: 0});
+    private coursesObservable: Observable<{newCourses: ICourse[], totalCount: number}> = this._coursesObservable.asObservable();
 
-    private _coursesObservable: BehaviorSubject<ICourse[]> = <BehaviorSubject<ICourse[]>> new BehaviorSubject([]);
-    private coursesObservable: Observable<ICourse[]> = this._coursesObservable.asObservable();
+    private courseSearchText: string = '';
+    private currentStep: number;
+    private coursesOnPage: number;
+    private createCourseURL: string = 'http://localhost:3000/courses';
 
-    constructor(private filterCoursePipe: FilterCoursesPipe) {
-        setTimeout(() => {
-            this.notifyStreams();
-        }, 1000);
+    constructor(
+        private http: AuthorizedHttpService
+    ) {
+
     }
 
-    private incrementMaxId(): void {
-        this.currentMaxId++;
+    public updateCourseSearchText(searchText: string): void {
+        this.courseSearchText = searchText;
     }
 
-    private notifyStreams() {
-        this._coursesObservable.next(this.courses);
-        // Observable.from(this.courses).subscribe( course => {
-        //     this._coursesObservable.next(course);
-        // });
+    public fetchCourses(pageNumber: number, coursesOnPage: number) {
+        this.http.get(this.getCoursesUrl(pageNumber, coursesOnPage))
+            .map( (res: Response) => { return res.json(); })
+            .subscribe(
+                res => {
+                    this.currentStep = pageNumber;
+                    this.coursesOnPage = coursesOnPage;
+                    this._coursesObservable.next(res);
+                }
+            );
     }
 
-    private addCourse(course: ICourse): void {
-        this.courses.unshift(course);
-        this.notifyStreams();
+    public deleteCourse(courseId: number): void {
+        this.http.deleteModel(this.getIdSpecificCoursesUrl(courseId))
+            .map( (res: Response) => {return res.json()})
+            .subscribe(
+                (res) => {
+                    if (res.success) {
+                        this.fetchCourses(this.currentStep, this.coursesOnPage);
+                    }
+                }
+            )
     }
 
-    public getCoursesList(): Observable<ICourse[]> {
+    public getCoursesList(pageNumber: number, coursesOnPage: number): Observable<{newCourses: ICourse[], totalCount: number}> {
+        this.fetchCourses(pageNumber, coursesOnPage);
         return this.coursesObservable;
     }
 
     public createCourse(courseObject: ICourse): void {
-        this.incrementMaxId();
-
         let newCourse: ICourse = {
-            id: this.currentMaxId,
             title: courseObject.title,
             duration: courseObject.duration,
             description: courseObject.description,
             date: new Date()
         };
 
-        this.addCourse(newCourse);
+        this.http.post(this.createCourseURL, newCourse)
+            .map( ( res: Response ) => { return res.json; })
+            .subscribe(
+                () => {
+                    this.fetchCourses(this.currentStep, this.coursesOnPage);
+                }
+            );
     }
 
     public updateCourse(courseObject: ICourse): void {
-        let course = this.getCourseById(courseObject.id);
-        course.title = courseObject.title;
-        course.description = courseObject.description;
-        course.duration = courseObject.duration;
-        this.notifyStreams();
+        console.log(courseObject);
+        this.http.put(this.getIdSpecificCoursesUrl(courseObject.id), courseObject)
+            .map( (res: Response) => { return res.json()})
+            .subscribe(
+                (res) => {
+                    if (res.success) {
+                        this.fetchCourses(this.currentStep, this.coursesOnPage);
+                    }
+                }
+            )
+        // let course = this.getCourseById(courseObject.id);
+        // course.title = courseObject.title;
+        // course.description = courseObject.description;
+        // course.duration = courseObject.duration;
+        // // this.notifyStreams();
     }
 
-    public deleteCourse(id: number): void {
-        let courseIndex = this.getCourseById(id);
-        this.courses.splice(this.courses.indexOf(courseIndex), 1);
-        this.notifyStreams();
+    // public deleteCourse(id: number): void {
+    //     let courseIndex = this.getCourseById(id);
+    //     this.courses.splice(this.courses.indexOf(courseIndex), 1);
+    //     // this.notifyStreams();
+    // }
+
+    // public getCourseById(id: number): any {
+    //     if (this.courses.length === 0 ) { return void 0; }
+    //
+    //     let elementIndex = this.courses.findIndex( (course: ICourse) => {
+    //         return course.id === id;
+    //     });
+    //
+    //     return this.courses[elementIndex];
+    // }
+
+    private getCoursesUrl(pageNumber: number, coursesOnPage: number): string {
+        return `http://localhost:3000/courses?pageNumber=${pageNumber}&coursesOnPage=${coursesOnPage}&searchText=${this.courseSearchText}`;
     }
 
-    public getCourseById(id: number): any {
-        if (this.courses.length === 0 ) { return void 0; }
-
-        let elementIndex = this.courses.findIndex( (course: ICourse) => {
-            return course.id === id;
-        });
-
-        return this.courses[elementIndex];
-    }
-
-    public filterCourses(filterText: string): void {
-        let filteredCourses = this.filterCoursePipe.transform(this.courses, filterText);
-        this._coursesObservable.next(filteredCourses);
+    private getIdSpecificCoursesUrl(id: number): string {
+        return `http://localhost:3000/courses/${id}`;
     }
 }

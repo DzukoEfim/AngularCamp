@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="courses.length > 0">
     <div class="col-md-12 col-lg-12">
         <h3>Courses list</h3>
     </div>
@@ -6,6 +6,16 @@
         <div *ngFor="let course of courses">
             <single-course [course]="course" (onCourseDelete)="openAlert($event)" (onCourseEdit)="editCourse($event)"></single-course>
         </div>
+    </div>
+    <div class="col-md-12 col-lg-12">
+        <courses-pagination
+                *ngIf="totalCount > coursesOnPage"
+                [coursesOnPage]="coursesOnPage"
+                [current]="currentStep"
+                [totalCount]="totalCount"
+                (navigateToStep)="navigateToStep($event)">
+
+        </courses-pagination>
     </div>
 </div>
 

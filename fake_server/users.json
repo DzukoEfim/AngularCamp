@@ -1,0 +1,20 @@
+[
+  {
+    "name": "yafim",
+    "id": 0,
+    "token": "yafimToken",
+    "password": "123"
+  },
+  {
+    "name": "test",
+    "id": 1,
+    "token": "test",
+    "password": "test"
+  },
+  {
+    "name": "123",
+    "id": 2,
+    "token": "123123123",
+    "password": "123"
+  }
+]

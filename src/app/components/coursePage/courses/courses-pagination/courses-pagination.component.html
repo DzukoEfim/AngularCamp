@@ -1,0 +1,16 @@
+<ul class="pagination">
+    <li [ngClass]="{disabled: current === 1}">
+        <a (click)="onNavigateToPrevStep()" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+        </a>
+    </li>
+    <li *ngFor="let value of getNumberOfPageAsArray()" [ngClass]="{active: value === current}">
+        <a (click)="onNavigationChange(value)">{{value}}</a>
+    </li>
+
+    <li [ngClass]="{disabled: current === getNumberOfPages()}">
+        <a (click)="onNavigateToNextStep()" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+        </a>
+    </li>
+</ul>

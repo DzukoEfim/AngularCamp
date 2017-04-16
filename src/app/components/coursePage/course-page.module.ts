@@ -5,6 +5,7 @@ import { FormsModule }   from '@angular/forms';
 
 import { CourseControlPanelComponent } from './course-control-panel/course-control-panel.component';
 import { CoursesComponent } from './courses/courses.component';
+import { CoursesPaginationComponent } from './courses/courses-pagination/courses-pagination.component';
 import { SingleCourseComponent } from './courses/course/single-course.component';
 import { CourseCreateFormComponent } from './course-create-from/course-create-form.component';
 import { CourseConfirmationAlertComponent } from './course-confirmation-alert/course-confirmation-alert.component';
@@ -19,6 +20,7 @@ import { CoursesService } from '../../services/courses.service';
 
 const forDeclarations = [
     CoursePageComponent,
+    CoursesPaginationComponent,
     CourseControlPanelComponent,
     CoursesComponent,
     SingleCourseComponent,

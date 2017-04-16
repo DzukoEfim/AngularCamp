@@ -20,7 +20,9 @@
     "test-watch": "karma start --no-single-run --auto-watch",
     "ci": "npm run e2e && npm run test",
     "docs": "typedoc --options typedoc.json src/app/app.component.ts",
-    "start": "npm run server",
+    "dev": "npm run server",
+    "start": "concurrently --kill-others \"npm run server\" \"npm run json-server\"",
+    "json-server": "node fake_server/server.js",
     "start:hmr": "npm run server -- --hot",
     "postinstall": "npm run webdriver-update"
   },
@@ -49,6 +51,7 @@
     "autoprefixer": "^6.3.2",
     "awesome-typescript-loader": "^3.0.0-beta.17",
     "codelyzer": "2.0.0",
+    "concurrently": "^3.4.0",
     "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.26.1",
     "extract-text-webpack-plugin": "^2.0.0-beta.4",

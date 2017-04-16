@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChanges} from '@angular/core';
 import { ICourse } from '../../../interfaces/course-interfaces/course-interface';
+import { CoursesService } from '../../../services/courses.service';
 
 @Component({
     selector: 'courses',
@@ -8,15 +9,36 @@ import { ICourse } from '../../../interfaces/course-interfaces/course-interface'
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CoursesComponent implements OnInit {
+export class CoursesComponent implements OnChanges{
     @Input('courses') courses: Array<ICourse>;
+    @Input('totalCount') totalCount: number;
+
     @Output('onCourseDelete') onCourseDelete = new EventEmitter<number>();
     @Output('onCourseEdit') onCourseEdit = new EventEmitter<ICourse>();
+
     public showDeleteAlert: boolean = false;
     public courseInfo: {id: number, title: string};
 
-    public ngOnInit() {
-        console.log('course OnInit, courses array - ', this.courses);
+    public coursesOnPage: number = 2;
+    public currentStep: number = 1;
+
+    constructor(
+        private coursesService: CoursesService
+    ) {
+    }
+
+    ngOnChanges(changes: SimpleChanges) {
+        console.log(changes);
+        console.log(this.courses);
+        if (this.courses.length === 0 && this.currentStep !== 1) {
+            this.navigateToStep(this.currentStep - 1);
+        }
+    }
+
+    public navigateToStep(step: number): void {
+        this.currentStep = step;
+        this.coursesService.fetchCourses(step, this.coursesOnPage);
+
     }
 
     public deleteCourse(id: number): void {

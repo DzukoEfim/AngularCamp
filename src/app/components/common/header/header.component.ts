@@ -15,9 +15,6 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
     public sub: any;
 
     constructor(private loginService: LoginService, private changeDetector: ChangeDetectorRef) {
-        this.changeDetector = changeDetector;
-        this.loginService = loginService;
-
         this.breadcrumbs = [
             {
                 name: 'main',

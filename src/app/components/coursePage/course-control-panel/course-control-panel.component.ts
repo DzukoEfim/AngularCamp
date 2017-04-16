@@ -1,5 +1,7 @@
 import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
+import { CoursesService } from '../../../services/courses.service';
+
 @Component({
     selector: 'course-control-panel',
     styleUrls: ['./course-control-panel.component.css'],
@@ -8,22 +10,24 @@ import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angul
 })
 
 export class CourseControlPanelComponent {
-    @Output('onCourseSearch') onCourseSearch = new EventEmitter<Object>();
     @Output('onAddNewClick') onAddNewClick = new EventEmitter();
 
     public searchText: string = '';
 
+    constructor(
+        private coursesService: CoursesService
+    ) {
+
+    }
+
     public searchCourse(): void {
-        this.onCourseSearch.emit({
-            value: this.searchText
-        });
+        this.coursesService.updateCourseSearchText(this.searchText);
+        this.coursesService.fetchCourses(1, 2);
     }
 
     public onCourseClear(): void {
-        this.searchText = '';
-        this.onCourseSearch.emit({
-            value: this.searchText
-        });
+        this.coursesService.updateCourseSearchText('');
+        this.coursesService.fetchCourses(1, 2);
     }
 
     public onAddNew(): void {

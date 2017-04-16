@@ -1,6 +1,7 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { HeaderModule } from './components/common/header/header.module';
@@ -20,7 +21,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
         CoursePageModule,
         HeaderModule,
         FooterModule,
-        CoreModule
+        CoreModule,
+        HttpModule
     ],
     declarations: [
         AppComponent
