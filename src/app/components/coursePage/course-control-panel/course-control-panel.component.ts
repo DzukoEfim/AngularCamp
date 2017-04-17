@@ -22,19 +22,15 @@ export class CourseControlPanelComponent {
 
     public searchCourse(): void {
         this.coursesService.updateCourseSearchText(this.searchText);
-        this.coursesService.fetchCourses(1, 2);
+        this.coursesService.fetchCourses();
     }
 
     public onCourseClear(): void {
         this.coursesService.updateCourseSearchText('');
-        this.coursesService.fetchCourses(1, 2);
+        this.coursesService.fetchCourses();
     }
 
     public onAddNew(): void {
         this.onAddNewClick.emit();
-    }
-
-    public changeInput() {
-        console.log(arguments);
     }
 }

@@ -26,7 +26,7 @@ export class CoursePageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.sub = this.coursesService.getCoursesList(1, 2)
+        this.sub = this.coursesService.getCoursesList()
             .map( course => { return course; })
             .subscribe(
                 (courses) => {

@@ -11,6 +11,14 @@ navigate to localhost:8080
 
 ### Changelog
 
+###### 17.04.2017
+1) ADDED JSON SERVER! LAUNCH PROJECT AS USUAL. one command will start both dev and json servers
+2) Available users\pass - 123\123 (check users.json in fake_server folder for more users)
+3) Added support of http for ALL calls
+4) Added pagination (server-side)
+5) Added server-side search (clear will call for all courses)
+6) Extended http service with AuthorizedHttpService (which add special header to all calls, for all calls except LOGIN SERVICE)
+
 ###### 11.04.2017
 1) added some Observables
 2) implemented fake component from creating courses

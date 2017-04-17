@@ -1,4 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges, SimpleChanges} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges } from '@angular/core';
 import { ICourse } from '../../../interfaces/course-interfaces/course-interface';
 import { CoursesService } from '../../../services/courses.service';
 
@@ -9,7 +9,7 @@ import { CoursesService } from '../../../services/courses.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CoursesComponent implements OnChanges{
+export class CoursesComponent implements OnChanges {
     @Input('courses') courses: Array<ICourse>;
     @Input('totalCount') totalCount: number;
 
@@ -27,9 +27,7 @@ export class CoursesComponent implements OnChanges{
     ) {
     }
 
-    ngOnChanges(changes: SimpleChanges) {
-        console.log(changes);
-        console.log(this.courses);
+    ngOnChanges() {
         if (this.courses.length === 0 && this.currentStep !== 1) {
             this.navigateToStep(this.currentStep - 1);
         }
@@ -37,7 +35,8 @@ export class CoursesComponent implements OnChanges{
 
     public navigateToStep(step: number): void {
         this.currentStep = step;
-        this.coursesService.fetchCourses(step, this.coursesOnPage);
+        this.coursesService.setCurrentStep(step);
+        this.coursesService.fetchCourses();
 
     }
 

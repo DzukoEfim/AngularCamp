@@ -13,8 +13,8 @@ export class CoursesService {
     private coursesObservable: Observable<{newCourses: ICourse[], totalCount: number}> = this._coursesObservable.asObservable();
 
     private courseSearchText: string = '';
-    private currentStep: number;
-    private coursesOnPage: number;
+    private currentStep: number = 1;
+    private coursesOnPage: number = 2;
     private createCourseURL: string = 'http://localhost:3000/courses';
 
     constructor(
@@ -23,17 +23,11 @@ export class CoursesService {
 
     }
 
-    public updateCourseSearchText(searchText: string): void {
-        this.courseSearchText = searchText;
-    }
-
-    public fetchCourses(pageNumber: number, coursesOnPage: number) {
-        this.http.get(this.getCoursesUrl(pageNumber, coursesOnPage))
+    public fetchCourses() {
+        this.http.get(this.getCoursesUrl())
             .map( (res: Response) => { return res.json(); })
             .subscribe(
                 res => {
-                    this.currentStep = pageNumber;
-                    this.coursesOnPage = coursesOnPage;
                     this._coursesObservable.next(res);
                 }
             );
@@ -41,18 +35,18 @@ export class CoursesService {
 
     public deleteCourse(courseId: number): void {
         this.http.deleteModel(this.getIdSpecificCoursesUrl(courseId))
-            .map( (res: Response) => {return res.json()})
+            .map( (res: Response) => { return res.json(); })
             .subscribe(
                 (res) => {
                     if (res.success) {
-                        this.fetchCourses(this.currentStep, this.coursesOnPage);
+                        this.fetchCourses();
                     }
                 }
-            )
+            );
     }
 
-    public getCoursesList(pageNumber: number, coursesOnPage: number): Observable<{newCourses: ICourse[], totalCount: number}> {
-        this.fetchCourses(pageNumber, coursesOnPage);
+    public getCoursesList(): Observable<{newCourses: ICourse[], totalCount: number}> {
+        this.fetchCourses();
         return this.coursesObservable;
     }
 
@@ -68,47 +62,48 @@ export class CoursesService {
             .map( ( res: Response ) => { return res.json; })
             .subscribe(
                 () => {
-                    this.fetchCourses(this.currentStep, this.coursesOnPage);
+                    this.fetchCourses();
                 }
             );
     }
 
     public updateCourse(courseObject: ICourse): void {
-        console.log(courseObject);
         this.http.put(this.getIdSpecificCoursesUrl(courseObject.id), courseObject)
-            .map( (res: Response) => { return res.json()})
+            .map( (res: Response) => { return res.json(); })
             .subscribe(
                 (res) => {
                     if (res.success) {
-                        this.fetchCourses(this.currentStep, this.coursesOnPage);
+                        this.fetchCourses();
                     }
                 }
-            )
-        // let course = this.getCourseById(courseObject.id);
-        // course.title = courseObject.title;
-        // course.description = courseObject.description;
-        // course.duration = courseObject.duration;
-        // // this.notifyStreams();
+            );
     }
 
-    // public deleteCourse(id: number): void {
-    //     let courseIndex = this.getCourseById(id);
-    //     this.courses.splice(this.courses.indexOf(courseIndex), 1);
-    //     // this.notifyStreams();
-    // }
+    public getCurrentStep(): number {
+        return this.currentStep;
+    }
 
-    // public getCourseById(id: number): any {
-    //     if (this.courses.length === 0 ) { return void 0; }
-    //
-    //     let elementIndex = this.courses.findIndex( (course: ICourse) => {
-    //         return course.id === id;
-    //     });
-    //
-    //     return this.courses[elementIndex];
-    // }
+    public getCoursesOnPage(): number {
+        return this.coursesOnPage;
+    }
 
-    private getCoursesUrl(pageNumber: number, coursesOnPage: number): string {
-        return `http://localhost:3000/courses?pageNumber=${pageNumber}&coursesOnPage=${coursesOnPage}&searchText=${this.courseSearchText}`;
+    public updateCourseSearchText(searchText: string): void {
+        this.courseSearchText = searchText;
+    }
+
+    public setCurrentStep(step: number): void {
+        this.currentStep = step;
+    }
+
+    public setCoursesOnPage(coursesOnPage: number): void {
+        this.coursesOnPage = coursesOnPage;
+    }
+
+    private getCoursesUrl(): string {
+        return `http://localhost:3000/courses?` +
+                `pageNumber=${this.currentStep}` +
+                `&coursesOnPage=${this.coursesOnPage}` +
+                `&searchText=${this.courseSearchText}`;
     }
 
     private getIdSpecificCoursesUrl(id: number): string {

@@ -11,8 +11,22 @@ let currentLastId = courses.length + 1;
 server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
-server.post('/users', (req, res) => {
+server.get('/users/:id', (req, res) => {
 
+    const id = +req.params.id,
+          userIndex = users.findIndex( user => {
+              return user.id === id
+          });
+
+    if (userIndex >= 0 && users[userIndex]) {
+        res.send({success: true, name: users[userIndex].name, id: users[userIndex].id})
+    } else {
+        res.send({success: false})
+    }
+
+});
+
+server.post('/login', (req, res) => {
     let userPos = void 0;
     for (let i = 0; i < users.length; i++) {
         if (users[i].name === req.body.name && users[i].password == req.body.password) {
@@ -26,6 +40,11 @@ server.post('/users', (req, res) => {
         res.json({fail: true});
     }
 });
+
+server.get('/logout', (req, res) => {
+//    some logout logic here
+    res.json({succcess: true});
+})
 
 server.get('/courses', (req, res) => {
 
@@ -71,7 +90,6 @@ server.delete('/courses/:id', (req, res) => {
     res.json({success: true})
 });
 
-
 server.post('/courses', (req, res) => {
 
     const newCourse = {
@@ -89,9 +107,17 @@ server.post('/courses', (req, res) => {
 });
 
 server.put('/courses/:id', (req, res) => {
+    const id = +req.params.id,
+        courseIndex = courses.findIndex( course => {
+            return course.id === id
+        });
 
+    courses[courseIndex].title = req.body.title;
+    courses[courseIndex].description = req.body.description;
+    courses[courseIndex].duration = req.body.duration;
+
+    res.json({success: true});
 });
-
 
 server.listen(3000, () => {
     console.log('server is running at port: 3000');

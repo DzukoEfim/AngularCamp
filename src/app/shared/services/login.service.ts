@@ -22,7 +22,7 @@ export class LoginService {
     }
 
     public login(userName: string, password: string) {
-        return this.http.post(this.getUsersUrl(), {name: userName, password: password})
+        return this.http.post(this.getLoginUrl(), {name: userName, password: password})
             .do(() => { this.loaderService.enableLoader(); })
             .map( (res: Response) => { return res.json(); })
             .do(() => { this.loaderService.disableLoader(); })
@@ -33,26 +33,50 @@ export class LoginService {
                     } else {
                         this.userToken = res.token;
                         this._userInfo.next({loggedStatus: true, errorLogging: false, userName: res.name});
+                        this.getUserInfo();
                     }
                 }
             );
     }
 
     public logOut() {
-        this.loaderService.enableLoader();
-        setTimeout( () => {
-            this.userToken = void 0;
-            this._userInfo.next({loggedStatus: false, errorLogging: true});
-            this.loaderService.disableLoader();
-        }, Math.random() * 3000);
-
+        this.http.get(this.getLogoutUrl())
+            .do(() => { this.loaderService.enableLoader(); })
+            .map( (res: Response) => { return res.json(); })
+            .do(() => { this.loaderService.disableLoader(); })
+            .subscribe(
+                () => {
+                    this.userToken = void 0;
+                    this._userInfo.next({loggedStatus: false, errorLogging: false});
+                }
+            );
     }
 
     public getToken(): string {
-        return this.userToken
+        return this.userToken;
+    }
+
+    public getUserInfo() {
+        this.http.get(this.getUsersUrl() + '/1')
+            .map( (res: Response) => { return res.json(); } )
+            .subscribe(
+                res => {
+                    if (res.success) {
+                        console.log('here is usage if methid GetUserInfo, info for user with id 1 - ', res);
+                    }
+                }
+            );
     }
 
     private getUsersUrl(): string {
         return 'http://localhost:3000/users';
+    }
+
+    private getLoginUrl(): string {
+        return 'http://localhost:3000/login';
+    }
+
+    private getLogoutUrl(): string {
+        return 'http://localhost:3000/logout';
     }
 }
