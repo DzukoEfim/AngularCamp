@@ -1,13 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CoursePageComponent } from './course-page.component';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 
 import { CourseControlPanelComponent } from './course-control-panel/course-control-panel.component';
 import { CoursesComponent } from './courses/courses.component';
 import { CoursesPaginationComponent } from './courses/courses-pagination/courses-pagination.component';
 import { SingleCourseComponent } from './courses/course/single-course.component';
 import { CourseCreateFormComponent } from './course-create-from/course-create-form.component';
+import { DateFieldComponent } from './course-create-from/course-create-form-datefield/datefield-component';
+import { DurationComponent } from './course-create-from/course-create-form-durationfield/duration-component';
 import { CourseConfirmationAlertComponent } from './course-confirmation-alert/course-confirmation-alert.component';
 
 import { CourseBorderDirective } from '../../directives/courses/course-border.directive';
@@ -25,6 +27,8 @@ const forDeclarations = [
     CoursesComponent,
     SingleCourseComponent,
     CourseCreateFormComponent,
+    DateFieldComponent,
+    DurationComponent,
     CourseConfirmationAlertComponent,
     CourseBorderDirective,
     DurationPipe,
@@ -41,7 +45,7 @@ const declarations = [
 ];
 
 @NgModule({
-    imports: [BrowserModule, FormsModule],
+    imports: [BrowserModule, FormsModule, ReactiveFormsModule],
     declarations: [...declarations],
     exports: [...declarations],
     providers: [

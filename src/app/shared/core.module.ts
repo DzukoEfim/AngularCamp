@@ -5,6 +5,9 @@ import { LoaderService } from './services/loader.service';
 import { TimeService } from './services/time.service';
 import { AuthorizedHttpService } from './services/authorized-http.service';
 
+import { DateValidator } from './validators/date.validator';
+import { NumberValidator } from './validators/number.validator'
+
 const angularModules = [
 ];
 
@@ -20,7 +23,9 @@ const angularModules = [
         LoginService,
         LoaderService,
         TimeService,
-        AuthorizedHttpService
+        AuthorizedHttpService,
+        DateValidator,
+        NumberValidator
     ],
 })
 export class CoreModule {}

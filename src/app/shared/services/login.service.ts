@@ -17,7 +17,7 @@ export class LoginService {
         private loaderService: LoaderService,
         private http: Http
     ) {
-        this._userInfo = <BehaviorSubject<IUserInfo>>new BehaviorSubject({loggedStatus: false, errorLogging: false});
+        this._userInfo = <BehaviorSubject<IUserInfo>>new BehaviorSubject({loggedStatus: true, errorLogging: false});
         this.userInfo = this._userInfo.asObservable();
     }
 

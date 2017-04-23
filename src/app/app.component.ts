@@ -23,12 +23,12 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this._ngZone.onUnstable.subscribe( () => {
-            console.time('test');
-        });
-        this._ngZone.onStable.subscribe( () => {
-            console.timeEnd('test');
-        });
+        // this._ngZone.onUnstable.subscribe( () => {
+        //     console.time('test');
+        // });
+        // this._ngZone.onStable.subscribe( () => {
+        //     console.timeEnd('test');
+        // });
         this.subLogin = this.loginService.userInfo.subscribe( (userInfo) => {
             this.userInfo = userInfo;
         });
