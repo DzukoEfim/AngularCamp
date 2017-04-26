@@ -51,14 +51,8 @@ export class CoursesService {
     }
 
     public createCourse(courseObject: ICourse): void {
-        let newCourse: ICourse = {
-            title: courseObject.title,
-            duration: courseObject.duration,
-            description: courseObject.description,
-            date: new Date()
-        };
 
-        this.http.post(this.createCourseURL, newCourse)
+        this.http.post(this.createCourseURL, courseObject)
             .map( ( res: Response ) => { return res.json; })
             .subscribe(
                 () => {

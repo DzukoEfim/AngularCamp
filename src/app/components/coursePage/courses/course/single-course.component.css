@@ -7,7 +7,8 @@
 }
 
 .course-heading h3,
-.course-heading h4 {
+.course-heading h4,
+.course-heading h5{
     display:  inline-block;
 }
 

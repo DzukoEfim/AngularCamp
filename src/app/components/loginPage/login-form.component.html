@@ -1,21 +1,38 @@
-<div class="login-form">
+<form class="login-form" #form="ngForm" (submit)="submit(form)">
     <div class="row login-form">
-        <div class="form-group col-md-12 col-lg-12 {{userName.length === 0 ? 'has-error' : ''}}">
+        <div class="form-group col-md-12 col-lg-12">
             <label for="userName">User name</label>
-            <input [value]="userName" (input)="userName=$event.target.value" id="userName" placeholder="User name" class="form-control" (keyup.enter)="onEnter()">
+            <input
+                    [(ngModel)]="formModel.username"
+                    name="username"
+                    type="text"
+                    id="userName"
+                    placeholder="User name"
+                    class="form-control"
+                    required
+                    minlength="3"
+            />
         </div>
 
-        <div class="form-group col-md-12 col-lg-12 {{password.length === 0 ? 'has-error' : ''}}">
+        <div class="form-group col-md-12 col-lg-12">
             <label for="password">Password</label>
-            <input [(ngModel)]="password" type="text" id="password" placeholder="Passworde" class="form-control" (keyup.enter)="onEnter()">
+            <input [(ngModel)]="formModel.password"
+                   name="password"
+                   type="text"
+                   id="password"
+                   placeholder="Passworde"
+                   class="form-control"
+                   minlength="3"
+                   required
+            />
         </div>
 
         <div class="col-md-12 col-lg-12">
-            <button type="button" class="btn btn-primary" (click)="logInUser()">Login</button>
+            <button type="button" class="btn btn-primary" [disabled]="!form.valid || !form.touched" (click)="submit(form)">Login</button>
         </div>
 
         <div class="col-md-12 col-lg-12" *ngIf="userInfo.errorLogging">
             Incorrect user name or password
         </div>
     </div>
-</div>
+</form>

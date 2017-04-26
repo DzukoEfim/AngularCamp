@@ -3,6 +3,7 @@ import { ICourse } from '../../interfaces/course-interfaces/course-interface';
 import { CoursesService } from '../../services/courses.service';
 import { TimeService } from '../../shared/services/time.service';
 
+
 @Component({
     selector: 'course-page',
     styleUrls: ['./course-page.component.css'],
@@ -12,6 +13,7 @@ import { TimeService } from '../../shared/services/time.service';
 
 export class CoursePageComponent implements OnInit, OnDestroy {
     public courses: Array<ICourse> = [];
+    public authors: Array<string> = [];
     public showCreateCourseForm: boolean = false;
 
     public totalCount: number = 0;

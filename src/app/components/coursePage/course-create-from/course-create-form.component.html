@@ -3,7 +3,7 @@
     <form [formGroup]="formGroup" (submit)="submit(formGroup)">
         <div class="row">
             <div class="col-md-4 col-lg-4">
-                <div [ngClass]="{'form-group': true, 'has-error': !formGroup.get('title').valid}">
+                <div [ngClass]="{'form-group': true, 'has-error': showError('title')}">
                     <label for="title">Title</label>
                     <input formControlName="title"
                            type="text"
@@ -14,21 +14,18 @@
                 </div>
             </div>
 
-            <div [ngClass]="{'col-md-4 col-lg-4': true, 'has-error': !formGroup.get('dateField').valid}">
-                <date-field fieldName="dateField" label="Date" formControlName="dateField"></date-field>
+            <div [ngClass]="{'col-md-4 col-lg-4': true, 'has-error': showError('date')}">
+                <date-field fieldName="dateField" label="Date" formControlName="date"></date-field>
             </div>
 
-            <div [ngClass]="{'col-md-4 col-lg-4': true, 'has-error': !formGroup.get('duration').valid}">
+            <div [ngClass]="{'col-md-4 col-lg-4': true, 'has-error': showError('duration')}">
                 <duration-field fieldName="duration" label="Duration" formControlName="duration"></duration-field>
             </div>
-
-
-
         </div>
 
         <div class="row">
             <div class="col-md-12 col-lg-12">
-                <div [ngClass]="{'form-group': true, 'has-error': !formGroup.get('description').valid}">
+                <div [ngClass]="{'form-group': true, 'has-error': showError('description')}">
                     <label for="description">Description</label>
                     <textarea
                             formControlName="description"
@@ -39,34 +36,29 @@
             </div>
         </div>
 
-        <!--<div class="row author-selector">-->
-            <!--<div class="col-md-12 col-lg-12">-->
-                <!--<div class="row">-->
-                    <!--<div class="col-md-5 col-lg-5">-->
-                        <!--<select multiple class="form-control">-->
-                            <!--<option>Mike</option>-->
-                            <!--<option>Ivan</option>-->
-                            <!--<option>Denis</option>-->
-                            <!--<option>TestUser</option>-->
-                        <!--</select>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-1 col-lg-1">-->
-                        <!--<button type="button" class="btn btn-primary">></button>-->
-                        <!--<button type="button" class="btn btn-default"><</button>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-5 col-lg-5">-->
-                        <!--<select multiple class="form-control">-->
-                            <!--<option>Yafim</option>-->
-                        <!--</select>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+        <div class="row author-selector">
+            <div [ngClass]="{'col-md-12 col-lg-12 authors-border': true, 'authors-border-error': showError('authors')}">
+                <span>Choose author</span>
+                <authors [authors]="authors" formControlName="authors"></authors>
+            </div>
+        </div>
+
+        <div class="row errors">
+            <div class="col-md-12 col-lg-12">
+
+                <span *ngIf="!formGroup.get('title').valid && formGroup.touched"> Field Title is required. Max length - 50 symbols</span>
+                <span *ngIf="!formGroup.get('description').valid && formGroup.touched"> Field Description is required. Max length - 500 symbols</span>
+                <span *ngIf="!formGroup.get('date').valid && formGroup.touched"> Field Date is required. Format is dd/mm/yyyy</span>
+                <span *ngIf="!formGroup.get('duration').valid && formGroup.touched"> Field Duration is required. Only numbers allowed</span>
+                <span *ngIf="!formGroup.get('authors').valid && formGroup.touched"> At least on author required!</span>
+
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-12 col-lg-12">
                 <button type="button" class="btn btn-primary" (click)="onFormClose()">Close</button>
-                <button type="submit" class="btn btn-default" [disabled]="!formGroup.valid" (click)="onCourseCreate()">Create</button>
+                <button type="submit" class="btn btn-default" [disabled]="!formGroup.valid">Create</button>
             </div>
         </div>
     </form>

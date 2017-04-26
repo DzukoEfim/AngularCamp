@@ -4,7 +4,8 @@ interface ICourse {
     date ?: Date,
     duration: number,
     description: string,
-    topRated ?: boolean
+    topRated ?: boolean,
+    authors ?: Array<string>
 }
 
 export {

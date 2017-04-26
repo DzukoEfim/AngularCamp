@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
 import { LoginService } from '../../shared/services/login.service';
 
 import { IUserInfo } from '../../interfaces/common/login-interface';
@@ -10,27 +10,21 @@ import { IUserInfo } from '../../interfaces/common/login-interface';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit {
     @Input('userInfo') userInfo: IUserInfo;
-    public userName: string = '';
-    public password: string = '';
-    public formValid: boolean = true;
-
+    public formModel: any;
     constructor(
-        private loginService: LoginService
+        private loginService: LoginService,
+
     ) {
     }
 
-    public logInUser (): void {
-        this.loginService.login(this.userName, this.password);
-    };
+    ngOnInit() {
+        this.formModel = {username: '', password: ''};
+    }
 
-    public onEnter(): void {
-        if (this.userName.length === 0 || this.password.length === 0) {
-            this.formValid = false;
-            return;
-        }
-        this.logInUser();
+    public submit (form: any): void {
+        this.loginService.login(form.value.username, form.value.password);
     }
 
 }

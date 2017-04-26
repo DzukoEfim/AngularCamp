@@ -6,3 +6,22 @@
     margin-top: 10px;
     margin-bottom: 7px;
 }
+
+.authors-border {
+    padding: 5px;
+    border: 1px solid #5bc0de;
+    border-radius: 5px;
+}
+
+.authors-border-error {
+    border-color: #d9534f
+}
+
+.errors {
+    margin-top: 10px;
+    margin-bottom: 7px;
+    color: #d9534f
+}
+.errors span {
+    display: block;
+}

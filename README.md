@@ -11,6 +11,12 @@ navigate to localhost:8080
 
 ### Changelog
 
+###### 26.04.2017
+1) Login stil - 123\123
+2) Added template driven form for login component
+3) Added model driven form for creating new course
+4) Added custom validators
+
 ###### 17.04.2017
 1) ADDED JSON SERVER! LAUNCH PROJECT AS USUAL. one command will start both dev and json servers
 2) Available users\pass - 123\123 (check users.json in fake_server folder for more users)

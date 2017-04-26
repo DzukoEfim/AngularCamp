@@ -1,57 +1,67 @@
 import { Component, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 
-import { DateValidator } from '../../../../shared/validators/date.validator';
+import { AuthorsValidator } from '../../../../shared/validators/authors.validator';
 
-const CUSTOM_DATEFIELD_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef( () => DateFieldComponent),
+const CUSTOM_AUTHORS_VALIDATOR = {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef( () => AuthorsValidator ),
     multi: true
 };
 
-const CUSTOM_DATEFIELD_VALIDATOR_= {
-    provide: NG_VALIDATORS,
-    useExisting: forwardRef( () => DateValidator ),
+const CUSTOM_DATEFIELD_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef( () => AuthorsSelectorComponent),
     multi: true
 };
 
 @Component({
-    selector: 'date-field',
+    selector: 'authors',
     template: `
-        <div class="form-group">
-            <label for="datefield">{{label}}</label>
-            <input
-                [value]="value"
-                [name]="fieldName"
-                (change)="setValue($event)"
-                type="datetime"
-                class="form-control"
-                id="datefield"
-            />
+        <div *ngFor="let author of authors; let i=index">
+            <div class="form-group">
+                <label>
+                    <input 
+                        (change)="setValue($event)"
+                         value="{{author}}"
+                        type="checkbox" 
+                        [checked]="activeAuthors.indexOf(author) > -1"
+                    /> {{author}}
+                </label>
+            </div>
         </div>`,
-    providers: [CUSTOM_DATEFIELD_VALUE_ACCESSOR, CUSTOM_DATEFIELD_VALIDATOR_]
+    providers: [CUSTOM_DATEFIELD_VALUE_ACCESSOR, CUSTOM_AUTHORS_VALIDATOR]
 })
 
-export class DateFieldComponent implements ControlValueAccessor {
+export class AuthorsSelectorComponent implements ControlValueAccessor {
 
-    @Input() fieldName: string;
-    @Input() label: string;
-    public currentValue: any;
+    @Input() authors: Array<string>;
+
+    public activeAuthors: Array<{name: string, enabled: boolean}>;
 
     public onChange = (_) => {};
-    public onTouched =(_) => {};
+    public onTouched = (_) => {};
 
     set value(newValue) {
-        this.currentValue = newValue;
+        this.activeAuthors = newValue;
         this.onChange(newValue);
     }
 
     get value() {
-        return this.currentValue;
+        return this.activeAuthors;
     }
 
     public setValue(object: any): void {
-        this.value = object.target.value
+
+        let newAuthorsArray = this.value.slice(0);
+
+        if (object.target.checked) {
+            newAuthorsArray.push(object.target.value);
+        } else {
+            const index = newAuthorsArray.indexOf(object.target.value);
+            newAuthorsArray.splice(index, 1);
+        }
+        this.value = newAuthorsArray;
     }
 
     public writeValue(value: any): void {

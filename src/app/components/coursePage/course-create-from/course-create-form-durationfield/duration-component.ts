@@ -9,7 +9,7 @@ const CUSTOM_DATEFIELD_VALUE_ACCESSOR = {
     multi: true
 };
 
-const CUSTOM_NUMBER_VALIDATOR_= {
+const CUSTOM_NUMBER_VALIDATOR = {
     provide: NG_VALIDATORS,
     useExisting: forwardRef( () => NumberValidator ),
     multi: true
@@ -29,7 +29,7 @@ const CUSTOM_NUMBER_VALIDATOR_= {
                 id="duration"
             />
         </div>`,
-    providers: [CUSTOM_DATEFIELD_VALUE_ACCESSOR, CUSTOM_NUMBER_VALIDATOR_]
+    providers: [CUSTOM_DATEFIELD_VALUE_ACCESSOR, CUSTOM_NUMBER_VALIDATOR]
 })
 
 export class DurationComponent implements ControlValueAccessor {
@@ -39,7 +39,7 @@ export class DurationComponent implements ControlValueAccessor {
     public currentValue: any;
 
     public onChange = (_) => {};
-    public onTouched =(_) => {};
+    public onTouched = (_) => {};
 
     set value(newValue) {
         this.currentValue = newValue;
@@ -51,7 +51,7 @@ export class DurationComponent implements ControlValueAccessor {
     }
 
     public setValue(object: any): void {
-        this.value = object.target.value
+        this.value = object.target.value;
     }
 
     public writeValue(value: any): void {

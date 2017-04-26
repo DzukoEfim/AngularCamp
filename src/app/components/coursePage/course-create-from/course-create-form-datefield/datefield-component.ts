@@ -1,17 +1,9 @@
 import { Component, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
-
-import { DateValidator } from '../../../../shared/validators/date.validator';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, /*NG_VALIDATORS*/ } from '@angular/forms';
 
 const CUSTOM_DATEFIELD_VALUE_ACCESSOR = {
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef( () => DateFieldComponent),
-    multi: true
-};
-
-const CUSTOM_DATEFIELD_VALIDATOR_= {
-    provide: NG_VALIDATORS,
-    useExisting: forwardRef( () => DateValidator ),
     multi: true
 };
 
@@ -29,21 +21,23 @@ const CUSTOM_DATEFIELD_VALIDATOR_= {
                 id="datefield"
             />
         </div>`,
-    providers: [CUSTOM_DATEFIELD_VALUE_ACCESSOR, CUSTOM_DATEFIELD_VALIDATOR_]
+    providers: [CUSTOM_DATEFIELD_VALUE_ACCESSOR]
 })
 
 export class DateFieldComponent implements ControlValueAccessor {
 
     @Input() fieldName: string;
     @Input() label: string;
+    private dateRegExp: RegExp = /^((0?[1-9]|1[012])[- /.](0?[1-9]|[12][0-9]|3[01])[- /.](19|20)?[0-9]{2})*$/;
     public currentValue: any;
 
     public onChange = (_) => {};
-    public onTouched =(_) => {};
+    public onTouched = (_) => {};
 
     set value(newValue) {
+        const valueForExport = this.dateRegExp.test(newValue) ? newValue : null;
         this.currentValue = newValue;
-        this.onChange(newValue);
+        this.onChange(valueForExport);
     }
 
     get value() {
@@ -51,7 +45,7 @@ export class DateFieldComponent implements ControlValueAccessor {
     }
 
     public setValue(object: any): void {
-        this.value = object.target.value
+        this.value = object.target.value;
     }
 
     public writeValue(value: any): void {

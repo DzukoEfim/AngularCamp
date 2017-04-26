@@ -1,5 +1,7 @@
-import { Component, Output, EventEmitter, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { AuthorService } from '../../../shared/services/authors.service';
+import { dateValidator } from '../../../shared/validators/date.validator';
 
 @Component({
     selector: 'course-create-form',
@@ -8,40 +10,58 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CourseCreateFormComponent implements OnInit {
+export class CourseCreateFormComponent implements OnInit, OnDestroy {
     @Output('onCreateFormClose') onCreateFormClose = new EventEmitter<void>();
     @Output('onAddNewCourse') onAddNewCourse = new EventEmitter<Object>();
 
-    public title: string = '';
-    public duration: number = 0;
-    public description: string = '';
-    public dateField: string = '';
+    private authorsSub: any;
+    public authors: Array<string> = [];
     public formGroup: FormGroup;
 
     constructor(
-        private formBuilder: FormBuilder
-    ){
+        private formBuilder: FormBuilder,
+        private _changeDetectionRed: ChangeDetectorRef,
+        private authorService: AuthorService
+    ) {
 
     }
 
     ngOnInit() {
-        this.formGroup = this.formBuilder.group({
-            title: ['', Validators.maxLength(50)],
-            description: ['', Validators.maxLength(500)],
-            dateField: '',
-            duration: 0
-        });
+        this.authorsSub = this.authorService.getAuthorsList()
+            .map( res => { return res; } )
+            .subscribe(
+                res => {
+                    this.authors = res.authors;
+                    this._changeDetectionRed.markForCheck();
+                }
+            );
+
+        this.formGroup = this.createNewClearFormGroup();
 
         this.formGroup.valueChanges.subscribe(
             () => {
-                console.log(this.formGroup);
-                // console.log(this.formGroup.get('dateField').value)
+                console.log(this.formGroup.get('title'));
             }
-        )
+        );
+    }
+
+    private createNewClearFormGroup(): FormGroup {
+        return this.formBuilder.group({
+            title: ['', Validators.compose([Validators.maxLength(50), Validators.required])],
+            description: ['', Validators.compose([Validators.maxLength(500), Validators.required])],
+            date: ['', Validators.compose([dateValidator, Validators.required])],
+            duration: [0, Validators.required],
+            authors: [[], Validators.required]
+        });
+    }
+
+    ngOnDestroy() {
+        this.authorsSub.unsubscribe();
     }
 
     public submit(formGroup: FormGroup): void {
-        console.log(formGroup)
+        this.onAddNewCourse.emit(formGroup.value);
+        this.clearFormData();
     }
 
     public onFormClose(): void {
@@ -49,19 +69,11 @@ export class CourseCreateFormComponent implements OnInit {
     }
 
     public clearFormData(): void {
-        this.title = '';
-        this.duration = 0;
-        this.description = '';
+        this.formGroup = this.createNewClearFormGroup();
     }
 
-    public onCourseCreate(): void {
-        // let courseObject: ICourse = {
-        //     title: this.title,
-        //     duration: this.duration,
-        //     description: this.description
-        // };
-        // this.clearFormData();
-        // this.onAddNewCourse.emit(courseObject);
-        console.log(this.formGroup)
+    public showError(field: string): boolean {
+        console.log(this.formGroup.get(field));
+        return !this.formGroup.get(field).valid && this.formGroup.touched;
     }
 }

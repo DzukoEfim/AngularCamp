@@ -10,8 +10,8 @@ import { SingleCourseComponent } from './courses/course/single-course.component'
 import { CourseCreateFormComponent } from './course-create-from/course-create-form.component';
 import { DateFieldComponent } from './course-create-from/course-create-form-datefield/datefield-component';
 import { DurationComponent } from './course-create-from/course-create-form-durationfield/duration-component';
+import { AuthorsSelectorComponent } from './course-create-from/course-create-form-authors/authors-component';
 import { CourseConfirmationAlertComponent } from './course-confirmation-alert/course-confirmation-alert.component';
-
 import { CourseBorderDirective } from '../../directives/courses/course-border.directive';
 
 import { DurationPipe } from '../../pipes/duration.pipe';
@@ -32,7 +32,8 @@ const forDeclarations = [
     CourseConfirmationAlertComponent,
     CourseBorderDirective,
     DurationPipe,
-    SortByDatePipe
+    SortByDatePipe,
+    AuthorsSelectorComponent
 ];
 
 const services = [

@@ -32,6 +32,10 @@
 
         <div class="col-md-2 col-lg-2 course-date-created" >
             <span>posted: {{course.date | date}}</span>
+            <span>Author{{course.authors.length > 1 ? 's' : ''}}: <span *ngFor="let author of course.authors; let i = index">
+                {{author}}{{course.authors.length - 1 == i ? '' : ','}}
+            </span></span>
+
         </div>
 
     </div>

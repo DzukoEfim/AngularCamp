@@ -5,6 +5,7 @@ const url = require('url');
 
 const users = require('./users.json');
 const courses = require('./courses.json');
+const authors = require('./authors.json');
 
 let currentLastId = courses.length + 1;
 
@@ -44,7 +45,11 @@ server.post('/login', (req, res) => {
 server.get('/logout', (req, res) => {
 //    some logout logic here
     res.json({succcess: true});
-})
+});
+
+server.get('/authors', (req, res) => {
+    res.json(authors)
+});
 
 server.get('/courses', (req, res) => {
 
@@ -97,6 +102,7 @@ server.post('/courses', (req, res) => {
         description: req.body.description,
         date: req.body.date,
         duration: +req.body.duration,
+        authors: req.body.authors,
         id: currentLastId
     };
 
