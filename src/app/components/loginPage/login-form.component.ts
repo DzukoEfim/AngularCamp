@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy, Input, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, OnDestroy } from '@angular/core';
 import { LoginService } from '../../shared/services/login.service';
-
+import { LoaderService } from '../../shared/services/loader.service';
 import { IUserInfo } from '../../interfaces/common/login-interface';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'login-form',
@@ -10,21 +11,41 @@ import { IUserInfo } from '../../interfaces/common/login-interface';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class LoginFormComponent implements OnInit {
-    @Input('userInfo') userInfo: IUserInfo;
+export class LoginFormComponent implements OnInit, OnDestroy {
+    private subLogin: any;
+    private subLoader: any;
+    public showLoader: boolean = false;
+    public userInfo: IUserInfo;
     public formModel: any;
+
     constructor(
         private loginService: LoginService,
-
+        private loaderService: LoaderService,
+        private router: Router
     ) {
     }
 
     ngOnInit() {
+        this.subLogin = this.loginService.userInfo.subscribe( (userInfo) => {
+            this.userInfo = userInfo;
+        });
+        this.subLoader = this.loaderService.showLoader.subscribe( (value) => {
+            this.showLoader = value;
+        });
         this.formModel = {username: '', password: ''};
     }
 
+    ngOnDestroy() {
+        this.subLogin.unsubscribe();
+        this.subLoader.unsubscribe();
+    }
+
     public submit (form: any): void {
-        this.loginService.login(form.value.username, form.value.password);
+        this.loginService.login(form.value.username, form.value.password, this.successNavigate.bind(this));
+    }
+
+    public successNavigate () {
+        this.router.navigate(['/courses']);
     }
 
 }

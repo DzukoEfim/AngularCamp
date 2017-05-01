@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { CoursesService } from '../../../services/courses.service';
 
@@ -10,7 +10,6 @@ import { CoursesService } from '../../../services/courses.service';
 })
 
 export class CourseControlPanelComponent {
-    @Output('onAddNewClick') onAddNewClick = new EventEmitter();
 
     public searchText: string = '';
 
@@ -28,9 +27,5 @@ export class CourseControlPanelComponent {
     public onCourseClear(): void {
         this.coursesService.updateCourseSearchText('');
         this.coursesService.fetchCourses();
-    }
-
-    public onAddNew(): void {
-        this.onAddNewClick.emit();
     }
 }

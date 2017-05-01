@@ -36,8 +36,9 @@ const CUSTOM_DATEFIELD_VALUE_ACCESSOR = {
 export class AuthorsSelectorComponent implements ControlValueAccessor {
 
     @Input() authors: Array<string>;
+    @Input() courseAuthors: Array<{name: string, enabled: boolean}>;
 
-    public activeAuthors: Array<{name: string, enabled: boolean}>;
+    public activeAuthors: Array<{name: string, enabled: boolean}> = this.courseAuthors;
 
     public onChange = (_) => {};
     public onTouched = (_) => {};

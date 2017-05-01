@@ -2,6 +2,8 @@ import { Component, Output, EventEmitter, ChangeDetectionStrategy, OnInit, Chang
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthorService } from '../../../shared/services/authors.service';
 import { dateValidator } from '../../../shared/validators/date.validator';
+import { CoursesService } from '../../../services/courses.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'course-create-form',
@@ -11,7 +13,6 @@ import { dateValidator } from '../../../shared/validators/date.validator';
 })
 
 export class CourseCreateFormComponent implements OnInit, OnDestroy {
-    @Output('onCreateFormClose') onCreateFormClose = new EventEmitter<void>();
     @Output('onAddNewCourse') onAddNewCourse = new EventEmitter<Object>();
 
     private authorsSub: any;
@@ -21,7 +22,9 @@ export class CourseCreateFormComponent implements OnInit, OnDestroy {
     constructor(
         private formBuilder: FormBuilder,
         private _changeDetectionRed: ChangeDetectorRef,
-        private authorService: AuthorService
+        private authorService: AuthorService,
+        private coursesService: CoursesService,
+        private router: Router
     ) {
 
     }
@@ -60,12 +63,8 @@ export class CourseCreateFormComponent implements OnInit, OnDestroy {
     }
 
     public submit(formGroup: FormGroup): void {
-        this.onAddNewCourse.emit(formGroup.value);
-        this.clearFormData();
-    }
-
-    public onFormClose(): void {
-        this.onCreateFormClose.emit();
+        this.coursesService.createCourse(formGroup.value);
+        this.router.navigate(['/courses']);
     }
 
     public clearFormData(): void {
@@ -73,7 +72,6 @@ export class CourseCreateFormComponent implements OnInit, OnDestroy {
     }
 
     public showError(field: string): boolean {
-        console.log(this.formGroup.get(field));
         return !this.formGroup.get(field).valid && this.formGroup.touched;
     }
 }

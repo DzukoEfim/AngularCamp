@@ -3,7 +3,6 @@ import { ICourse } from '../../interfaces/course-interfaces/course-interface';
 import { CoursesService } from '../../services/courses.service';
 import { TimeService } from '../../shared/services/time.service';
 
-
 @Component({
     selector: 'course-page',
     styleUrls: ['./course-page.component.css'],
@@ -14,7 +13,6 @@ import { TimeService } from '../../shared/services/time.service';
 export class CoursePageComponent implements OnInit, OnDestroy {
     public courses: Array<ICourse> = [];
     public authors: Array<string> = [];
-    public showCreateCourseForm: boolean = false;
 
     public totalCount: number = 0;
 
@@ -55,25 +53,8 @@ export class CoursePageComponent implements OnInit, OnDestroy {
         this.sub.unsubscribe();
     }
 
-    public onAddNewClick(): void {
-        this.showCreateCourseForm = true;
-    }
-
-    public onCreateFormClose(): void {
-        this.showCreateCourseForm = false;
-    }
-
-    public onAddNewCourse(courseObject: ICourse): void {
-        this.coursesService.createCourse(courseObject);
-        this.onCreateFormClose();
-    }
-
     public onCourseDelete(id: number): void {
         this.coursesService.deleteCourse(id);
-    }
-
-    public onCourseEdit(editCourseObject: ICourse): void {
-        this.coursesService.updateCourse(editCourseObject);
     }
 
 

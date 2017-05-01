@@ -2,12 +2,15 @@ import { NgModule, ApplicationRef } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
+import { RouterModule } from '@angular/router';
+import { Routes } from './app.routes';
 
 import { AppComponent } from './app.component';
 import { HeaderModule } from './components/common/header/header.module';
 import { CoursePageModule } from './components/coursePage/course-page.module';
 import { FooterModule } from './components/common/footer/footer.module';
 import { LoginPageModule } from './components/loginPage/login-form.module';
+import { NotFoundComponent } from './components/common/404/404.component';
 
 import { CoreModule } from './shared/core.module';
 
@@ -22,10 +25,12 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
         HeaderModule,
         FooterModule,
         CoreModule,
-        HttpModule
+        HttpModule,
+        RouterModule.forRoot(Routes, { useHash: true })
     ],
     declarations: [
-        AppComponent
+        AppComponent,
+        NotFoundComponent
     ],
 
     bootstrap: [AppComponent]

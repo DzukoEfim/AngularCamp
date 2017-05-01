@@ -12,6 +12,9 @@ export class CoursesService {
             <BehaviorSubject<{newCourses: ICourse[], totalCount: number}>> new BehaviorSubject({newCourses: [], totalCount: 0});
     private coursesObservable: Observable<{newCourses: ICourse[], totalCount: number}> = this._coursesObservable.asObservable();
 
+    private _singleCourseObservable: BehaviorSubject<ICourse>  = <BehaviorSubject<ICourse>> new BehaviorSubject({title: '', description: '', date: new Date(), duration: 0, authors: []});
+    private singleCourseObservable: Observable<ICourse> = this._singleCourseObservable.asObservable();
+
     private courseSearchText: string = '';
     private currentStep: number = 1;
     private coursesOnPage: number = 2;
@@ -45,9 +48,23 @@ export class CoursesService {
             );
     }
 
+    public fetchSingleCourse(courseId: number) {
+        this.http.get(this.getIdSpecificCoursesUrl(courseId))
+            .map ( (res: Response) => { return res.json(); })
+            .subscribe(
+                res => {
+                    this._singleCourseObservable.next(res);
+                }
+            )
+    }
+
     public getCoursesList(): Observable<{newCourses: ICourse[], totalCount: number}> {
         this.fetchCourses();
         return this.coursesObservable;
+    }
+
+    public getSingleCourseById(): Observable<ICourse> {
+        return this.singleCourseObservable;
     }
 
     public createCourse(courseObject: ICourse): void {

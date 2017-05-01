@@ -4,16 +4,7 @@
             <page-header></page-header>
         </div>
 
-        <div class="col-md-12 col-lg-12 course-page"  *ngIf="userInfo.loggedStatus">
-            <course-page></course-page>
-        </div>
-
-        <div class="col-md-5 col-lg-5  col-md-offset-3 col-lg-offset-3 login-form-wrapper" *ngIf="!userInfo.loggedStatus">
-            <div class="loader-wrapper">
-                <div class="loader" *ngIf="showLoader" >Loading...</div>
-            </div>
-            <login-form [userInfo]="userInfo"></login-form>
-        </div>
+        <router-outlet></router-outlet>
 
         <div class="col-md-12 col-lg-12 header">
             <copyright></copyright>

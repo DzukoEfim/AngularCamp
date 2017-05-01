@@ -11,7 +11,6 @@ import { IUserInfo } from '../../interfaces/common/login-interface';
 export class LoginService {
     public userInfo: Observable<IUserInfo>;
     private _userInfo: BehaviorSubject<IUserInfo>;
-    private userToken: string;
 
     constructor(
         private loaderService: LoaderService,
@@ -21,7 +20,7 @@ export class LoginService {
         this.userInfo = this._userInfo.asObservable();
     }
 
-    public login(userName: string, password: string) {
+    public login(userName: string, password: string, success: Function) {
         return this.http.post(this.getLoginUrl(), {name: userName, password: password})
             .do(() => { this.loaderService.enableLoader(); })
             .map( (res: Response) => { return res.json(); })
@@ -31,29 +30,31 @@ export class LoginService {
                     if (res.fail) {
                         this._userInfo.next({loggedStatus: false, errorLogging: true});
                     } else {
-                        this.userToken = res.token;
+                        localStorage.setItem('token', res.token);
                         this._userInfo.next({loggedStatus: true, errorLogging: false, userName: res.name});
+                        success();
                         this.getUserInfo();
                     }
                 }
             );
     }
 
-    public logOut() {
+    public logOut(successLogout) {
         this.http.get(this.getLogoutUrl())
             .do(() => { this.loaderService.enableLoader(); })
             .map( (res: Response) => { return res.json(); })
             .do(() => { this.loaderService.disableLoader(); })
             .subscribe(
                 () => {
-                    this.userToken = void 0;
+                    localStorage.setItem('token', void 0);
                     this._userInfo.next({loggedStatus: false, errorLogging: false});
+                    successLogout();
                 }
             );
     }
 
     public getToken(): string {
-        return this.userToken;
+        return localStorage.getItem('token');
     }
 
     public getUserInfo() {

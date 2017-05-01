@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { IBreadcrumb }  from '../../../interfaces/course-interfaces/breacrumbs-interface';
 import { LoginService } from '../../../shared/services/login.service';
-
+import { Router } from '@angular/router';
 @Component({
     selector: 'page-header',
     styleUrls: ['./header.component.css'],
@@ -14,7 +14,11 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
     public userInfo: Object;
     public sub: any;
 
-    constructor(private loginService: LoginService, private changeDetector: ChangeDetectorRef) {
+    constructor(
+        private loginService: LoginService,
+        private changeDetector: ChangeDetectorRef,
+        private router: Router
+    ) {
         this.breadcrumbs = [
             {
                 name: 'main',
@@ -32,6 +36,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
             this.userInfo = userInfo;
             this.changeDetector.markForCheck();
         });
+
     }
 
     ngOnDestroy() {
@@ -43,7 +48,11 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
     };
 
     public logOutUser(): void {
-        this.loginService.logOut();
+        this.loginService.logOut(this.navigateToLogin.bind(this));
+    }
+
+    public navigateToLogin() {
+        this.router.navigate(['/login'])
     }
 
 }

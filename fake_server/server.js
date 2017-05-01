@@ -125,6 +125,17 @@ server.put('/courses/:id', (req, res) => {
     res.json({success: true});
 });
 
+server.get('/courses/:id', (req, res) => {
+
+    const id = +req.params.id,
+        courseIndex = courses.findIndex( course => {
+            return course.id === id
+        });
+
+    res.json(courses[courseIndex]);
+
+});
+
 server.listen(3000, () => {
     console.log('server is running at port: 3000');
 });

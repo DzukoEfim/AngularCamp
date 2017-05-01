@@ -7,6 +7,7 @@ import { AuthorizedHttpService } from './services/authorized-http.service';
 import { AuthorService } from './services/authors.service';
 import { NumberValidator } from './validators/number.validator';
 import { AuthorsValidator } from './validators/authors.validator';
+import { AuthGuard } from './services/authGuard.service';
 
 const angularModules = [
 ];
@@ -26,7 +27,8 @@ const angularModules = [
         AuthorizedHttpService,
         NumberValidator,
         AuthorService,
-        AuthorsValidator
+        AuthorsValidator,
+        AuthGuard
     ],
 })
 export class CoreModule {}
