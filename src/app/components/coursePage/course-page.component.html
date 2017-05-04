@@ -1,13 +1,5 @@
 <div class="row course-page col-md-12 col-lg-12">
-    <div class="col-md-12 col-lg-12 control-panel">
-        <course-control-panel></course-control-panel>
-    </div>
-
     <div class="col-md-12 col-lg-12 courses">
-        <courses [totalCount]="totalCount" [courses]="courses | sortByDate" (onCourseDelete)="onCourseDelete($event)"></courses>
-    </div>
-
-    <div class="col-md-12 col-lg-12 no-courses" *ngIf="courses.length === 0">
-        No data. Feel free to add new courses :)
+        <router-outlet></router-outlet>
     </div>
 </div>

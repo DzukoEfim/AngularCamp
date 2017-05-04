@@ -6,9 +6,9 @@ import { AuthorizedHttpService } from './authorized-http.service';
 
 @Injectable()
 export class AuthorService {
-    private _authorsObservable: BehaviorSubject<{authors: Array<string>, fetched: boolean}> =
-        <BehaviorSubject<{authors: Array<string>, fetched: boolean}>> new BehaviorSubject({authors: [], fetched: false});
-    private authorsObservable: Observable<{authors: Array<string>, fetched: boolean}> = this._authorsObservable.asObservable();
+    private _authorsObservable: BehaviorSubject<any> =
+        <BehaviorSubject<any>> new BehaviorSubject(null);
+    private authorsObservable: Observable<any> = this._authorsObservable.asObservable();
 
     constructor(
         private http: AuthorizedHttpService
@@ -26,7 +26,7 @@ export class AuthorService {
             );
     }
 
-    public getAuthorsList(): Observable<{authors: Array<string>, fetched: boolean}> {
+    public getAuthorsList(): Observable<any> {
         this.fetchAuthors();
         return this.authorsObservable;
     }

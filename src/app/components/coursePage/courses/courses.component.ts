@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnChanges } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges, OnInit, OnDestroy } from '@angular/core';
 import { ICourse } from '../../../interfaces/course-interfaces/course-interface';
 import { CoursesService } from '../../../services/courses.service';
+import { TimeService } from '../../../shared/services/time.service';
 
 @Component({
     selector: 'courses',
@@ -9,12 +10,9 @@ import { CoursesService } from '../../../services/courses.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CoursesComponent implements OnChanges {
-    @Input('courses') courses: Array<ICourse>;
-    @Input('totalCount') totalCount: number;
-
-    @Output('onCourseDelete') onCourseDelete = new EventEmitter<number>();
-    @Output('onCourseEdit') onCourseEdit = new EventEmitter<ICourse>();
+export class CoursesComponent implements OnChanges, OnInit, OnDestroy {
+    public courses: Array<ICourse> = [];
+    public totalCount: number = 0;
 
     public showDeleteAlert: boolean = false;
     public courseInfo: {id: number, title: string};
@@ -22,8 +20,12 @@ export class CoursesComponent implements OnChanges {
     public coursesOnPage: number = 2;
     public currentStep: number = 1;
 
+    private sub: any;
+
     constructor(
-        private coursesService: CoursesService
+        private coursesService: CoursesService,
+        private _changeDetectionRef: ChangeDetectorRef,
+        private timeService: TimeService,
     ) {
     }
 
@@ -31,6 +33,34 @@ export class CoursesComponent implements OnChanges {
         if (this.courses.length === 0 && this.currentStep !== 1) {
             this.navigateToStep(this.currentStep - 1);
         }
+    }
+
+    ngOnInit() {
+        this.sub = this.coursesService.getCoursesList()
+            .map( course => { return course; })
+            .subscribe(
+                (courses) => {
+                    this.courses = courses.newCourses.filter( singleCourse => {
+                        let courseDateCreate = new Date(singleCourse.date),
+                            currentDate = new Date();
+
+                        return this.timeService.getDaysInDate(courseDateCreate) > (this.timeService.getDaysInDate(currentDate) - 14);
+                    });
+                    this.totalCount = courses.totalCount;
+                    this._changeDetectionRef.markForCheck();
+                },
+                error => {
+                    console.log(error);
+                },
+
+                () => {
+                    console.log('completed!');
+                }
+            );
+    }
+
+    ngOnDestroy() {
+        this.sub.unsubscribe();
     }
 
     public navigateToStep(step: number): void {
@@ -41,7 +71,7 @@ export class CoursesComponent implements OnChanges {
     }
 
     public deleteCourse(id: number): void {
-        this.onCourseDelete.emit(id);
+        this.coursesService.deleteCourse(id);
         this.closeAlert();
     }
 
@@ -53,9 +83,5 @@ export class CoursesComponent implements OnChanges {
     public openAlert(courseInfo: {id: number, title: string}): void {
         this.courseInfo = courseInfo;
         this.showDeleteAlert = true;
-    }
-
-    public editCourse(courseEditObject: ICourse): void {
-        this.onCourseEdit.emit(courseEditObject);
     }
 }

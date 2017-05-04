@@ -1,10 +1,15 @@
 <div class="row" *ngIf="courses.length > 0">
+
+    <div class="col-md-12 col-lg-12 control-panel">
+        <course-control-panel></course-control-panel>
+    </div>
+
     <div class="col-md-12 col-lg-12">
         <h3>Courses list</h3>
     </div>
     <div class="col-md-12 col-lg-12">
         <div *ngFor="let course of courses">
-            <single-course [course]="course" (onCourseDelete)="openAlert($event)" (onCourseEdit)="editCourse($event)"></single-course>
+            <single-course [course]="course" (onCourseDelete)="openAlert($event)"></single-course>
         </div>
     </div>
     <div class="col-md-12 col-lg-12">
@@ -17,6 +22,11 @@
 
         </courses-pagination>
     </div>
+
+    <div class="col-md-12 col-lg-12 no-courses" *ngIf="courses.length === 0">
+        No data. Feel free to add new courses :)
+    </div>
+
 </div>
 
 <div *ngIf="showDeleteAlert">

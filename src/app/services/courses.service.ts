@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Response } from '@angular/http';
+import { Router } from '@angular/router';
 
 import { AuthorizedHttpService } from '../shared/services/authorized-http.service';
 
@@ -12,7 +13,7 @@ export class CoursesService {
             <BehaviorSubject<{newCourses: ICourse[], totalCount: number}>> new BehaviorSubject({newCourses: [], totalCount: 0});
     private coursesObservable: Observable<{newCourses: ICourse[], totalCount: number}> = this._coursesObservable.asObservable();
 
-    private _singleCourseObservable: BehaviorSubject<ICourse>  = <BehaviorSubject<ICourse>> new BehaviorSubject({title: '', description: '', date: new Date(), duration: 0, authors: []});
+    private _singleCourseObservable: BehaviorSubject<ICourse>  = <BehaviorSubject<any>> new BehaviorSubject(null);
     private singleCourseObservable: Observable<ICourse> = this._singleCourseObservable.asObservable();
 
     private courseSearchText: string = '';
@@ -21,7 +22,8 @@ export class CoursesService {
     private createCourseURL: string = 'http://localhost:3000/courses';
 
     constructor(
-        private http: AuthorizedHttpService
+        private http: AuthorizedHttpService,
+        private router: Router
     ) {
 
     }
@@ -53,13 +55,19 @@ export class CoursesService {
             .map ( (res: Response) => { return res.json(); })
             .subscribe(
                 res => {
-                    this._singleCourseObservable.next(res);
+                    if (res.fail) {
+                        this.router.navigate(['**']);
+                    } else {
+                        this._singleCourseObservable.next(res);
+                    }
                 }
-            )
+            );
     }
 
-    public getCoursesList(): Observable<{newCourses: ICourse[], totalCount: number}> {
-        this.fetchCourses();
+    public getCoursesList(fetch: boolean = true): Observable<{newCourses: ICourse[], totalCount: number}> {
+        if (fetch) {
+            this.fetchCourses();
+        }
         return this.coursesObservable;
     }
 
@@ -67,23 +75,25 @@ export class CoursesService {
         return this.singleCourseObservable;
     }
 
-    public createCourse(courseObject: ICourse): void {
+    public createCourse(courseObject: ICourse, callback: Function): void {
 
         this.http.post(this.createCourseURL, courseObject)
             .map( ( res: Response ) => { return res.json; })
             .subscribe(
                 () => {
+                    callback();
                     this.fetchCourses();
                 }
             );
     }
 
-    public updateCourse(courseObject: ICourse): void {
+    public updateCourse(courseObject: ICourse, callback: Function): void {
         this.http.put(this.getIdSpecificCoursesUrl(courseObject.id), courseObject)
             .map( (res: Response) => { return res.json(); })
             .subscribe(
                 (res) => {
                     if (res.success) {
+                        callback();
                         this.fetchCourses();
                     }
                 }

@@ -1,10 +1,11 @@
-import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthorService } from '../../../../shared/services/authors.service';
 import { dateValidator } from '../../../../shared/validators/date.validator';
 import { CoursesService } from '../../../../services/courses.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ICourse } from '../../../../interfaces/course-interfaces/course-interface';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'course-edit-form',
@@ -13,12 +14,9 @@ import { ICourse } from '../../../../interfaces/course-interfaces/course-interfa
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CourseEditFormComponent implements OnInit, OnDestroy {
-    private authorsSub: any;
-    private courseSub: any;
+export class CourseEditFormComponent implements OnInit {
     private course: ICourse;
     public authors: Array<string> = [];
-    public courseAuthors: Array<{name: string, enabled: boolean}> = [];
     public showForm: boolean = false;
     public formGroup: FormGroup;
 
@@ -27,42 +25,56 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
         private _changeDetectionRed: ChangeDetectorRef,
         private authorService: AuthorService,
         private coursesService: CoursesService,
-        private route: ActivatedRoute
+        private route: ActivatedRoute,
+        private router: Router
     ) {
         this.showForm = false;
     }
 
     ngOnInit() {
-        this.courseSub = this.coursesService.getSingleCourseById()
-            .subscribe(
-                course => {
-                    this.course = course;
-                    this.courseAuthors = course.authors.map(author => {
-                        return  {name: author, enabled: true}
-                    });
+        this.formGroup = this.createNewClearFormGroup();
 
-                    this.authorsSub = this.authorService.getAuthorsList()
-                        .map( res => { return res; } )
-                        .subscribe(
-                            res => {
-                                this.authors = res.authors;
-                                this.formGroup = this.createNewClearFormGroup();
-                                this.showForm = true;
-                                this._changeDetectionRed.markForCheck();
+        Observable.combineLatest(
+            this.coursesService.getSingleCourseById(),
+            this.authorService.getAuthorsList(),
+            this.route.params,
+            (course, authors, data) => {
+                return { course: course, authors: authors, data: data };
+            })
+            .subscribe(
+                (res) => {
+                    if (res.course && res.authors && res.data) {
+                        let date = new Date(res.course.date),
+                            formattedDate = (date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear();
+
+                        this.course = res.course;
+                        this.authors = res.authors.authors.map(author => {
+                            let authorObject = {name: author, enabled: false};
+                            if (res.course.authors.indexOf(author) > -1) {
+                                authorObject.enabled = true;
                             }
-                        );
+                            return authorObject;
+                        });
+
+                        this.formGroup.patchValue({
+                            title: this.course.title,
+                            description: this.course.description,
+                            date: formattedDate,
+                            duration: this.course.duration,
+                            authors: res.course.authors
+                        });
+
+                        this.showForm = true;
+                        this._changeDetectionRed.markForCheck();
+                    }
                 }
             );
-
-
 
         this.route.params.subscribe(
             data => {
                 this.coursesService.fetchSingleCourse(data['id']);
             }
         );
-
-        this.formGroup = this.createNewClearFormGroup();
     }
 
     private createNewClearFormGroup(): FormGroup {
@@ -75,12 +87,14 @@ export class CourseEditFormComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
-        this.authorsSub.unsubscribe();
+    public submit(formGroup: FormGroup): void {
+        let course = formGroup.value;
+        course.id = this.course.id;
+        this.coursesService.updateCourse(course, this.navigateToCoursesPage.bind(this));
     }
 
-    public submit(formGroup: FormGroup): void {
-        this.coursesService.createCourse(formGroup.value);
+    public navigateToCoursesPage(): void {
+        this.router.navigate(['/courses']);
     }
 
     public clearFormData(): void {

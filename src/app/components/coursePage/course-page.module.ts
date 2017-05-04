@@ -10,13 +10,14 @@ import { CoursesPaginationComponent } from './courses/courses-pagination/courses
 import { SingleCourseComponent } from './courses/course/single-course.component';
 import { CourseCreateFormComponent } from './course-create-from/course-create-form.component';
 
+import { CourseEditFormComponent } from './courses/course-edit/course-edit-form.component';
+
 import { DateFieldComponent } from './course-create-from/course-create-form-datefield/datefield-component';
 import { DurationComponent } from './course-create-from/course-create-form-durationfield/duration-component';
 import { AuthorsSelectorComponent } from './course-create-from/course-create-form-authors/authors-component';
 
 import { CourseConfirmationAlertComponent } from './course-confirmation-alert/course-confirmation-alert.component';
 import { CourseBorderDirective } from '../../directives/courses/course-border.directive';
-import { CourseEditFormComponent } from './courses/course-edit/course-edit-form.component';
 
 import { DurationPipe } from '../../pipes/duration.pipe';
 import { SortByDatePipe } from '../../pipes/sort-by-date.pipe';
@@ -31,14 +32,14 @@ const forDeclarations = [
     CoursesComponent,
     SingleCourseComponent,
     CourseCreateFormComponent,
+    CourseEditFormComponent,
     DateFieldComponent,
     DurationComponent,
     CourseConfirmationAlertComponent,
     CourseBorderDirective,
     DurationPipe,
     SortByDatePipe,
-    AuthorsSelectorComponent,
-    CourseEditFormComponent
+    AuthorsSelectorComponent
 ];
 
 const services = [

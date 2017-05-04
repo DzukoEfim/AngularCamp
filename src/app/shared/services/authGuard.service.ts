@@ -13,11 +13,11 @@ export class AuthGuard implements CanActivate {
     }
 
     canActivate() {
-        if (!!this.loginService.getToken()) {
-            return true;
+        if (!this.loginService.getToken() || this.loginService.getToken() === 'undefined') {
+            this.router.navigate(['/login']);
+            return false;
         }
-
-        this.router.navigate(['/login']);
+        return false;
     }
 
 }

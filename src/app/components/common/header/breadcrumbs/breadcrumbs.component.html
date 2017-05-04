@@ -1,7 +1,7 @@
 <div class="breadcrumb-container">
     <ol class="breadcrumb">
-        <li *ngFor='let value of breadcrumbs'>
-            <a (click)="onBreadcrumbClickHandler(value)" href="#">{{value.name}}</a>
+        <li *ngFor="let breadcrumb of breadcrumbs">
+            <a [routerLink]="[breadcrumb.url]" routerLinkActive="active-link">{{breadcrumb.name}}</a>
         </li>
     </ol>
 </div>

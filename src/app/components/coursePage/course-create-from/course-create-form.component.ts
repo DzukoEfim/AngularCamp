@@ -34,8 +34,12 @@ export class CourseCreateFormComponent implements OnInit, OnDestroy {
             .map( res => { return res; } )
             .subscribe(
                 res => {
-                    this.authors = res.authors;
-                    this._changeDetectionRed.markForCheck();
+                    if (res) {
+                        this.authors = res.authors.map(author => {
+                            return author;
+                        });
+                        this._changeDetectionRed.markForCheck();
+                    }
                 }
             );
 
@@ -63,9 +67,13 @@ export class CourseCreateFormComponent implements OnInit, OnDestroy {
     }
 
     public submit(formGroup: FormGroup): void {
-        this.coursesService.createCourse(formGroup.value);
+        this.coursesService.createCourse(formGroup.value, this.navigateToCoursesPage.bind(this));
+    }
+
+    public navigateToCoursesPage(): void {
         this.router.navigate(['/courses']);
     }
+
 
     public clearFormData(): void {
         this.formGroup = this.createNewClearFormGroup();

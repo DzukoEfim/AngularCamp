@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { IBreadcrumb }  from '../../../interfaces/course-interfaces/breacrumbs-interface';
 import { LoginService } from '../../../shared/services/login.service';
 import { Router } from '@angular/router';
 @Component({
@@ -10,7 +9,7 @@ import { Router } from '@angular/router';
 })
 
 export class AppHeaderComponent implements OnInit, OnDestroy {
-    public breadcrumbs: IBreadcrumb[];
+
     public userInfo: Object;
     public sub: any;
 
@@ -19,16 +18,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
         private changeDetector: ChangeDetectorRef,
         private router: Router
     ) {
-        this.breadcrumbs = [
-            {
-                name: 'main',
-                url: '#'
-            },
-            {
-                name: 'courses',
-                url: 'test 2'
-            }
-        ];
+
     }
 
     ngOnInit() {
@@ -52,7 +42,7 @@ export class AppHeaderComponent implements OnInit, OnDestroy {
     }
 
     public navigateToLogin() {
-        this.router.navigate(['/login'])
+        this.router.navigate(['/login']);
     }
 
 }

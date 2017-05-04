@@ -22,7 +22,7 @@
             {{course.description}}
         </div>
 
-        <div class="col-md-2 col-lg-2" *ngIf="!editMode">
+        <div class="col-md-2 col-lg-2">
             <button [routerLink]="['./'+course.id]" type="button" class="btn btn-primary">Edit</button>
             <button type="button" class="btn btn-danger" (click)="onDelete()">Delete</button>
         </div>

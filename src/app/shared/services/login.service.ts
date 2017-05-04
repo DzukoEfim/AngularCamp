@@ -18,6 +18,25 @@ export class LoginService {
     ) {
         this._userInfo = <BehaviorSubject<IUserInfo>>new BehaviorSubject({loggedStatus: false, errorLogging: false});
         this.userInfo = this._userInfo.asObservable();
+
+        if (this.getToken()) {
+            this.hiddenLogin();
+        }
+    }
+
+    private hiddenLogin(): void {
+        this.http.post(this.getHiddenLoginUrl(), {token: this.getToken()})
+            .map( (res: Response) => { return res.json(); })
+            .subscribe(
+                res => {
+                    if (res.fail) {
+                        this._userInfo.next({loggedStatus: false, errorLogging: true});
+                    } else {
+                        this._userInfo.next({loggedStatus: true, errorLogging: false, userName: res.name});
+                    }
+                }
+            );
+
     }
 
     public login(userName: string, password: string, success: Function) {
@@ -79,5 +98,9 @@ export class LoginService {
 
     private getLogoutUrl(): string {
         return 'http://localhost:3000/logout';
+    }
+
+    private getHiddenLoginUrl(): string {
+        return 'http://localhost:3000/hiddenLogin';
     }
 }

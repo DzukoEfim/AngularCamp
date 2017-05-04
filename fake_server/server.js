@@ -42,6 +42,19 @@ server.post('/login', (req, res) => {
     }
 });
 
+server.post('/hiddenLogin', (req, res) => {
+    let userPos = users.findIndex( user => {
+        return user.token === req.body.token;
+    });
+
+    if (userPos === -1) {
+        res.json({fail: true})
+    } else {
+        res.json(users[userPos]);
+    }
+
+});
+
 server.get('/logout', (req, res) => {
 //    some logout logic here
     res.json({succcess: true});
@@ -121,6 +134,7 @@ server.put('/courses/:id', (req, res) => {
     courses[courseIndex].title = req.body.title;
     courses[courseIndex].description = req.body.description;
     courses[courseIndex].duration = req.body.duration;
+    courses[courseIndex].authors = req.body.authors;
 
     res.json({success: true});
 });
@@ -132,7 +146,13 @@ server.get('/courses/:id', (req, res) => {
             return course.id === id
         });
 
-    res.json(courses[courseIndex]);
+    if (courseIndex === -1) {
+        res.json({fail: true})
+    } else {
+        res.json(courses[courseIndex]);
+    }
+
+
 
 });
 

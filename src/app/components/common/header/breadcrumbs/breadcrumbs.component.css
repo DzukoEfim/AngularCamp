@@ -7,3 +7,9 @@
 .breadcrumb-container ol, .breadcrumb-container li {
     background: white;
 }
+
+.active-link {
+    pointer-events: none;
+    color: grey;
+
+}
