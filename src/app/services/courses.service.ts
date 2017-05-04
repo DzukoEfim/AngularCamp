@@ -38,6 +38,22 @@ export class CoursesService {
             );
     }
 
+    public getTitleById(id: number): string | number {
+        let title = '';
+
+        this.singleCourseObservable
+            .map( course => { return course; } )
+            .subscribe(
+                course => {
+                    if (course) {
+                        title = course.title;
+                    }
+                }
+            );
+
+        return title ? title : id;
+    }
+
     public deleteCourse(courseId: number): void {
         this.http.deleteModel(this.getIdSpecificCoursesUrl(courseId))
             .map( (res: Response) => { return res.json(); })

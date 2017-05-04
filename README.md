@@ -11,6 +11,14 @@ navigate to localhost:8080
 
 ### Changelog
 
+###### 04.05.2017
+1) Added routing
+2) Added breadcrumbs
+3) Added guards for routes
+4) changed behaviour of create\edit form
+5) added 404 page
+
+
 ###### 26.04.2017
 1) Login stil - 123\123
 2) Added template driven form for login component

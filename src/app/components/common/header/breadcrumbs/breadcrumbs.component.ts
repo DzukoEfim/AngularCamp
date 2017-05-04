@@ -1,6 +1,9 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { IBreadcrumb }  from '../../../../interfaces/course-interfaces/breacrumbs-interface';
+import { Observable } from 'rxjs';
+
+import { CoursesService } from '../../../../services/courses.service';
 
 @Component({
     selector: 'course-breadcrumbs',
@@ -15,19 +18,24 @@ export class BreadcrumbsComponent implements OnInit {
     constructor(
         private router: Router,
         private activatedRout: ActivatedRoute,
+        private coursesService: CoursesService,
         private _changeDetectionRef: ChangeDetectorRef,
     ) {
 
     }
     ngOnInit() {
-        this.router.events
-            .filter(
-                event => { return event instanceof NavigationEnd; }
-            )
+        Observable.combineLatest(
+            // this.coursesService.getCoursesList(),
+            this.coursesService.getSingleCourseById(),
+            this.router.events.filter(event => { return event instanceof NavigationEnd; }),
+
+            (courses, singleCourse, event) => { return {courses: courses, singleCourse: singleCourse, event: event}; }
+        )
             .subscribe(
                 () => {
-                    let root: ActivatedRoute = this.activatedRout.root;
                     this.breadcrumbs = [];
+
+                    let root: ActivatedRoute = this.activatedRout.root;
                     this.createBreadcrumbs(root, '', this.breadcrumbs);
                     this._changeDetectionRef.markForCheck();
                 }
@@ -53,9 +61,10 @@ export class BreadcrumbsComponent implements OnInit {
             url += `/${routeUrl}`;
             breadcrumbs.push({
                 name: child.snapshot.data['breadcrumb'] === 'singleCourse' ?
-                        child.snapshot.params['id'] :
+                        this.coursesService.getTitleById(child.snapshot.params['id']) :
                         child.snapshot.data['breadcrumb'],
                 url: url,
+                disabled: url === this.router.url
             });
             this.createBreadcrumbs(child, url, breadcrumbs);
         }

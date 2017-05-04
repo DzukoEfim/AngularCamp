@@ -35,7 +35,7 @@
                 <button type="button" class="btn btn-primary" [disabled]="!form.valid || !form.touched" (click)="submit(form)">Login</button>
             </div>
 
-            <div class="col-md-12 col-lg-12" *ngIf="userInfo.errorLogging">
+            <div class="col-md-12 col-lg-12" *ngIf="!form.valid && form.touched">
                 Incorrect user name or password
             </div>
         </div>

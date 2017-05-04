@@ -1,6 +1,7 @@
 interface IBreadcrumb {
   name: string,
-  url: string
+  url: string,
+  disabled ?: boolean
 }
 
 export {
