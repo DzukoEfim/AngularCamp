@@ -36,7 +36,7 @@ export class CourseCreateFormComponent implements OnInit, OnDestroy {
                 res => {
                     if (res) {
                         this.authors = res.authors.map(author => {
-                            return author;
+                            return {name: author, enabled: false};
                         });
                         this._changeDetectionRed.markForCheck();
                     }
