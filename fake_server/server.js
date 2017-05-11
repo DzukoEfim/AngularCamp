@@ -104,8 +104,8 @@ server.delete('/courses/:id', (req, res) => {
               return course.id === id
           });
 
-    courses.splice(courseIndex, 1);
-    res.json({success: true})
+    let deletedCourse = courses.splice(courseIndex, 1);
+    res.json(deletedCourse[0]);
 });
 
 server.post('/courses', (req, res) => {
@@ -121,7 +121,7 @@ server.post('/courses', (req, res) => {
 
     currentLastId++;
     courses.unshift(newCourse);
-    res.json({success: true})
+    res.json(newCourse)
 
 });
 
@@ -136,7 +136,7 @@ server.put('/courses/:id', (req, res) => {
     courses[courseIndex].duration = req.body.duration;
     courses[courseIndex].authors = req.body.authors;
 
-    res.json({success: true});
+    res.json(courses[courseIndex]);
 });
 
 server.get('/courses/:id', (req, res) => {
@@ -154,6 +154,31 @@ server.get('/courses/:id', (req, res) => {
 
 
 
+});
+
+server.get('/coursesAll', (req , res) => {
+    const urlParts = url.parse(req.url, true),
+        searchText = urlParts.query.searchText;
+
+    let sortedCourses = courses.sort( (course1, course2) => {
+        return new Date(course2.date) - new Date(course1.date);
+    });
+
+    let coursesArray = [];
+
+    if (searchText) {
+        for (let i = 0; i < sortedCourses.length; i++) {
+            if (sortedCourses[i].title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1) {
+                coursesArray.push(sortedCourses[i])
+            }
+        }
+
+    } else {
+        coursesArray = courses;
+    }
+
+
+    res.json(coursesArray);
 });
 
 server.listen(3000, () => {

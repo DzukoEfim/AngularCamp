@@ -25,7 +25,6 @@ export class BreadcrumbsComponent implements OnInit {
     }
     ngOnInit() {
         Observable.combineLatest(
-            // this.coursesService.getCoursesList(),
             this.coursesService.getSingleCourseById(),
             this.router.events.filter(event => { return event instanceof NavigationEnd; }),
 

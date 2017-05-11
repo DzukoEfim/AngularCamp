@@ -11,6 +11,12 @@ navigate to localhost:8080
 
 ### Changelog
 
+###### 11.05.2017
+1) added redux for courses (list, edit, create etc) and everething connected to auth (check redux devtool)
+2) changed pagination logic (to client-side)
+3) changed courses logic (now courses fetched once, and then sync with help of redux)
+4) added redux devtoole (user CTRL + H to enable, CTRL + M to change position)
+
 ###### 04.05.2017
 1) Added routing
 2) Added breadcrumbs

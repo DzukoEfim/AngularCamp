@@ -1,7 +1,7 @@
-import { Component, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges, OnInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy, OnChanges, OnInit, /*OnDestroy*/ } from '@angular/core';
 import { ICourse } from '../../../interfaces/course-interfaces/course-interface';
 import { CoursesService } from '../../../services/courses.service';
-import { TimeService } from '../../../shared/services/time.service';
+import { CoursesActions } from '../../../actions/coursesActions';
 
 @Component({
     selector: 'courses',
@@ -10,7 +10,7 @@ import { TimeService } from '../../../shared/services/time.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class CoursesComponent implements OnChanges, OnInit, OnDestroy {
+export class CoursesComponent implements OnChanges, OnInit /*OnDestroy*/ {
     public courses: Array<ICourse> = [];
     public totalCount: number = 0;
 
@@ -20,12 +20,10 @@ export class CoursesComponent implements OnChanges, OnInit, OnDestroy {
     public coursesOnPage: number = 2;
     public currentStep: number = 1;
 
-    private sub: any;
-
     constructor(
         private coursesService: CoursesService,
         private _changeDetectionRef: ChangeDetectorRef,
-        private timeService: TimeService,
+        private coursesActions: CoursesActions
     ) {
     }
 
@@ -36,37 +34,28 @@ export class CoursesComponent implements OnChanges, OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.sub = this.coursesService.getCoursesList()
-            .map( course => { return course; })
+        this.coursesActions.getCourses()
             .subscribe(
-                (courses) => {
-                    this.courses = courses.newCourses.filter( singleCourse => {
-                        let courseDateCreate = new Date(singleCourse.date),
-                            currentDate = new Date();
+                (courses: any) => {
+                    const newCoursesArray = [];
 
-                        return this.timeService.getDaysInDate(courseDateCreate) > (this.timeService.getDaysInDate(currentDate) - 14);
-                    });
-                    this.totalCount = courses.totalCount;
+                    for (let i = (courses.currentStep - 1) * courses.coursesOnPage; i < courses.currentStep * courses.coursesOnPage; i++) {
+                        if (i >= courses.coursesList.length) {
+                            break;
+                        }
+                        newCoursesArray.push(courses.coursesList[i]);
+                    }
+
+                    this.courses = newCoursesArray;
+                    this.totalCount = courses.coursesList.length;
                     this._changeDetectionRef.markForCheck();
-                },
-                error => {
-                    console.log(error);
-                },
-
-                () => {
-                    console.log('completed!');
                 }
             );
     }
 
-    ngOnDestroy() {
-        this.sub.unsubscribe();
-    }
-
     public navigateToStep(step: number): void {
         this.currentStep = step;
-        this.coursesService.setCurrentStep(step);
-        this.coursesService.fetchCourses();
+        this.coursesActions.navigateToCoursesPage(step);
 
     }
 

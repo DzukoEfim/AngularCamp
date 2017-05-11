@@ -8,6 +8,8 @@ import { AuthorService } from './services/authors.service';
 import { NumberValidator } from './validators/number.validator';
 import { AuthorsValidator } from './validators/authors.validator';
 import { AuthGuard } from './services/authGuard.service';
+import { AuthActions } from '../actions/authActions';
+import { CoursesActions } from '../actions/coursesActions';
 
 const angularModules = [
 ];
@@ -28,7 +30,9 @@ const angularModules = [
         NumberValidator,
         AuthorService,
         AuthorsValidator,
-        AuthGuard
+        AuthGuard,
+        AuthActions,
+        CoursesActions
     ],
 })
 export class CoreModule {}

@@ -20,12 +20,10 @@ export class CourseControlPanelComponent {
     }
 
     public searchCourse(): void {
-        this.coursesService.updateCourseSearchText(this.searchText);
-        this.coursesService.fetchCourses();
+        this.coursesService.fetchCourses(this.searchText);
     }
 
     public onCourseClear(): void {
-        this.coursesService.updateCourseSearchText('');
-        this.coursesService.fetchCourses();
+        this.coursesService.fetchCourses('');
     }
 }

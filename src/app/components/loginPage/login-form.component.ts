@@ -12,7 +12,6 @@ import { Router } from '@angular/router';
 })
 
 export class LoginFormComponent implements OnInit, OnDestroy {
-    private subLogin: any;
     private subLoader: any;
     public showLoader: boolean = false;
     public userInfo: IUserInfo;
@@ -23,12 +22,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         private loaderService: LoaderService,
         private router: Router
     ) {
+
     }
 
     ngOnInit() {
-        this.subLogin = this.loginService.userInfo.subscribe( (userInfo) => {
-            this.userInfo = userInfo;
-        });
         this.subLoader = this.loaderService.showLoader.subscribe( (value) => {
             this.showLoader = value;
         });
@@ -36,7 +33,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subLogin.unsubscribe();
         this.subLoader.unsubscribe();
     }
 

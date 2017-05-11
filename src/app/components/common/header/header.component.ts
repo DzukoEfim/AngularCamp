@@ -1,6 +1,8 @@
-import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { LoginService } from '../../../shared/services/login.service';
 import { Router } from '@angular/router';
+import { AuthActions } from '../../../actions/authActions';
+
 @Component({
     selector: 'page-header',
     styleUrls: ['./header.component.css'],
@@ -8,34 +10,27 @@ import { Router } from '@angular/router';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class AppHeaderComponent implements OnInit, OnDestroy {
+export class AppHeaderComponent implements OnInit {
 
     public userInfo: Object;
-    public sub: any;
 
     constructor(
         private loginService: LoginService,
+        private authActions: AuthActions,
         private changeDetector: ChangeDetectorRef,
-        private router: Router
+        private router: Router,
     ) {
 
     }
 
     ngOnInit() {
-        this.sub = this.loginService.userInfo.subscribe( (userInfo) => {
-            this.userInfo = userInfo;
-            this.changeDetector.markForCheck();
-        });
-
+        this.authActions.getUserInfo().subscribe(
+            store => {
+                this.userInfo = store;
+                this.changeDetector.markForCheck();
+            }
+        );
     }
-
-    ngOnDestroy() {
-        this.sub.unsubscribe();
-    }
-
-    onBreadcrumbClick = function (name: string): void {
-        console.log(name);
-    };
 
     public logOutUser(): void {
         this.loginService.logOut(this.navigateToLogin.bind(this));

@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-
+import { CoursesService } from './services/courses.service';
 @Component({
     selector: 'my-app',
     templateUrl: './app.component.html',
@@ -9,9 +9,15 @@ import { Component, NgZone, OnInit, OnDestroy, ChangeDetectionStrategy } from '@
 export class AppComponent implements OnInit, OnDestroy {
     public title: string;
 
-    constructor( private _ngZone: NgZone, ) {}
+    constructor(
+        private _ngZone: NgZone,
+        private coursesService: CoursesService
+    ) {
+
+    }
 
     ngOnInit() {
+        this.coursesService.fetchCourses();
         this._ngZone.onUnstable.subscribe( () => {
             console.time('test');
         });

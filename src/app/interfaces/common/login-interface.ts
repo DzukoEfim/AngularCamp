@@ -1,7 +1,6 @@
 interface IUserInfo {
     userName?: string,
-    loggedStatus: boolean,
-    errorLogging: boolean
+    loggedStatus: boolean
 }
 
 export {

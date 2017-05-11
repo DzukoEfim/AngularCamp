@@ -14,7 +14,13 @@ import { NotFoundComponent } from './components/common/404/404.component';
 
 import { CoreModule } from './shared/core.module';
 
+import { StoreModule } from '@ngrx/store';
+import { loginReducer } from './reducers/loginReducer';
+import { coursesReducers } from './reducers/coursesReducers';
+
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
 
 @NgModule({
     imports: [
@@ -26,7 +32,26 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
         FooterModule,
         CoreModule,
         HttpModule,
-        RouterModule.forRoot(Routes, { useHash: true })
+        RouterModule.forRoot(Routes, { useHash: true }),
+        StoreModule.provideStore(
+            {
+                userInfo: loginReducer,
+                courses: coursesReducers
+            },
+            {
+                userInfo: {
+                    loggedStatus: false,
+                },
+                courses: {
+                    coursesList: [],
+                    currentStep: 1,
+                    coursesOnPage: 2
+                }
+            }),
+        StoreDevtoolsModule.instrumentStore({
+            monitor: useLogMonitor({ visible: false, position: 'right' })
+        }),
+        StoreLogMonitorModule
     ],
     declarations: [
         AppComponent,
