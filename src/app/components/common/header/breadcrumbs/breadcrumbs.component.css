@@ -1,0 +1,15 @@
+.breadcrumb-container {
+    display: inline-block;
+    position: absolute;
+    bottom: 75px;
+}
+
+.breadcrumb-container ol, .breadcrumb-container li {
+    background: white;
+}
+
+.active-link {
+    pointer-events: none;
+    color: grey;
+
+}

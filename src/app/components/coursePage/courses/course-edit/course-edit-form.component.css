@@ -1,0 +1,33 @@
+.create-form {
+
+}
+
+.courses {
+    background-color: rgba(255, 255, 255, 0.1);
+    margin-bottom: 15px;
+    padding: 5px;
+}
+
+.author-selector{
+    margin-top: 10px;
+    margin-bottom: 7px;
+}
+
+.authors-border {
+    padding: 5px;
+    border: 1px solid #5bc0de;
+    border-radius: 5px;
+}
+
+.authors-border-error {
+    border-color: #d9534f
+}
+
+.errors {
+    margin-top: 10px;
+    margin-bottom: 7px;
+    color: #d9534f
+}
+.errors span {
+    display: block;
+}

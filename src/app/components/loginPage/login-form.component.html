@@ -1,0 +1,43 @@
+<div class="col-md-5 col-lg-5  col-md-offset-3 col-lg-offset-3 login-form-wrapper">
+    <div class="loader-wrapper">
+        <div class="loader" *ngIf="showLoader" >Loading...</div>
+    </div>
+    <form class="login-form" #form="ngForm" (submit)="submit(form)">
+        <div class="row login-form">
+            <div class="form-group col-md-12 col-lg-12">
+                <label for="userName">User name</label>
+                <input
+                        [(ngModel)]="formModel.username"
+                        name="username"
+                        type="text"
+                        id="userName"
+                        placeholder="User name"
+                        class="form-control"
+                        required
+                        minlength="3"
+                />
+            </div>
+
+            <div class="form-group col-md-12 col-lg-12">
+                <label for="password">Password</label>
+                <input [(ngModel)]="formModel.password"
+                       name="password"
+                       type="text"
+                       id="password"
+                       placeholder="Passworde"
+                       class="form-control"
+                       minlength="3"
+                       required
+                />
+            </div>
+
+            <div class="col-md-12 col-lg-12">
+                <button type="button" class="btn btn-primary" [disabled]="!form.valid || !form.touched" (click)="submit(form)">Login</button>
+            </div>
+
+            <div class="col-md-12 col-lg-12" *ngIf="!form.valid && form.touched">
+                Incorrect user name or password
+            </div>
+        </div>
+    </form>
+</div>
