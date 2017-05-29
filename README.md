@@ -11,6 +11,10 @@ navigate to localhost:8080
 
 ### Changelog
 
+###### 22.05.2017
+PROJECT MOVED TO NEW REPO -> https://github.com/DzukoEfim/AngularCli
+CURRENT REPO WILL SERVE AS STORE FOR COMMIT HISTORY!
+
 ###### 11.05.2017
 1) added redux for courses (list, edit, create etc) and everething connected to auth (check redux devtool)
 2) changed pagination logic (to client-side)
